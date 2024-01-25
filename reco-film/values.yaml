@@ -5,10 +5,20 @@
 replicaCount: 1
 
 image:
-  repository: nginx
+  repository: recofilmsmlopsoct2023/movieflix
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
-  tag: ""
+  tag: "v1.0"
+
+secret:
+  SECRET_KEY: c2VjcmV0Cg==
+  ALGORITHM: SFMyNTYK
+  ACCESS_TOKEN_EXPIRATION: MzAK
+  DBNAME: cG9zdGdyZXMK
+  USER: cG9zdGdyZXMK
+  PASSWORD: cmVjb21tZW5kYXRpb25fZmlsbXNfb2N0XzIzX01MT1BTCg==
+  HOST: cmVjby1maWxtcy1kYi5jazJ1dXZqOHRnNWIuZXUtd2VzdC0zLnJkcy5hbWF6b25hd3MuY29tCg==
+  PORT: NTQzMgo=
 
 imagePullSecrets: []
 nameOverride: ""
