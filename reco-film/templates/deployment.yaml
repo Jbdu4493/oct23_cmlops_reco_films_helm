@@ -35,6 +35,50 @@ spec:
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          env:
+          - name: SECRET_KEY
+            valueFrom:
+              secretKeyRef:
+                name: mysecret
+                key: SECRET_KEY
+          - name: ALGORITHM
+            valueFrom:
+              secretKeyRef:
+                name: mysecret
+                key: ALGORITHM          
+          - name: ACCESS_TOKEN_EXPIRATION
+            valueFrom:
+              secretKeyRef:
+                name: mysecret
+                key: ACCESS_TOKEN_EXPIRATION
+          - name: DBNAME
+            valueFrom:
+              secretKeyRef:
+                name: mysecret
+                key: DBNAME
+          - name: USER
+            valueFrom:
+              secretKeyRef:
+                name: mysecret
+                key: USER          
+          - name: PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: mysecret
+                key: PASSWORD
+          - name: HOST
+            valueFrom:
+              secretKeyRef:
+                name: mysecret
+                key: HOST
+          - name: PORT
+            valueFrom:
+              secretKeyRef:
+                name: mysecret
+                key: PORT
+          envFrom:
+          - configMapRef:
+              name:  
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
             - name: http

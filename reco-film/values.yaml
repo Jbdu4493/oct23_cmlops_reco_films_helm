@@ -20,6 +20,8 @@ secret:
   HOST: cmVjby1maWxtcy1kYi5jazJ1dXZqOHRnNWIuZXUtd2VzdC0zLnJkcy5hbWF6b25hd3MuY29tCg==
   PORT: NTQzMgo=
 
+mlflow_model_id: ""
+
 imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: ""
