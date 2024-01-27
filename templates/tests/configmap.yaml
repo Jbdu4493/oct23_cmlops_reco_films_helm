@@ -1,6 +1,0 @@
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: myconfigmap
-data:
-  MLFLOW_MODEL_ID: {{ .Values.secret.mlflow_model_id | quote }}
