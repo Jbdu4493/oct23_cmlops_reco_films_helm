@@ -1,0 +1,25 @@
+
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: movieflix-reco-films
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: 'https://github.com/Jbdu4493/oct23_cmlops_reco_films_helm.git'
+    targetRevision: 'master'  # Ou une autre branche/tag
+    path: .
+    helm:
+      valueFiles:
+        - values.yaml
+  destination:
+    server: 'https://kubernetes.default.svc'
+    namespace: movieflix
+  syncPolicy:
+    syncOption:
+    - CreateNamespace=true
+
+    automated: 
+      prune: true
+      selfHeal: true
