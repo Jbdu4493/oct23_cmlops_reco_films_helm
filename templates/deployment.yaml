@@ -76,22 +76,13 @@ spec:
               secretKeyRef:
                 name: mysecret
                 key: PORT
-          envFrom:
-          - configMapRef:
-              name:  
+          - name: MLFLOW_MODEL_ID
+            value: {{ .Values.mlflow.MLFLOW_MODEL_ID | quote }} 
+          - name: MLFLOW_SERVER
+            value: {{ .Values.mlflow.MLFLOW_SERVER | quote }}
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
-            - name: http
-              containerPort: {{ .Values.service.port }}
-              protocol: TCP
-          livenessProbe:
-            httpGet:
-              path: /
-              port: http
-          readinessProbe:
-            httpGet:
-              path: /
-              port: http
+          - containerPort: {{ .Values.service.targetPort }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
           {{- with .Values.volumeMounts }}

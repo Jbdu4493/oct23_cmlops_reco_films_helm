@@ -2,25 +2,28 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
-replicaCount: 1
+replicaCount: 3
 
 image:
   repository: recofilmsmlopsoct2023/movieflix
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
-  tag: "v1.0"
+  tag: "latest"
 
 secret:
-  SECRET_KEY: c2VjcmV0Cg==
-  ALGORITHM: SFMyNTYK
-  ACCESS_TOKEN_EXPIRATION: MzAK
-  DBNAME: cG9zdGdyZXMK
-  USER: cG9zdGdyZXMK
-  PASSWORD: cmVjb21tZW5kYXRpb25fZmlsbXNfb2N0XzIzX01MT1BTCg==
-  HOST: cmVjby1maWxtcy1kYi5jazJ1dXZqOHRnNWIuZXUtd2VzdC0zLnJkcy5hbWF6b25hd3MuY29tCg==
-  PORT: NTQzMgo=
+  USER: "cG9zdGdyZXM="
+  DBNAME: "cG9zdGdyZXM="
+  PASSWORD: "cmVjb21tZW5kYXRpb25fZmlsbXNfb2N0XzIzX01MT1BT"
+  HOST: "cmVjby1maWxtcy1kYi5jazJ1dXZqOHRnNWIuZXUtd2VzdC0zLnJkcy5hbWF6b25hd3MuY29t"
+  PORT: "NTQzMg=="
+  SECRET_KEY: "c2VjcmV0"
+  ALGORITHM: "SFMyNTY="
+  ACCESS_TOKEN_EXPIRATION: MzA=
 
-mlflow_model_id: ""
+mlflow:
+  MLFLOW_MODEL_ID: 1
+  MLFLOW_SERVER: http://51.44.19.191:5000/
+
 
 imagePullSecrets: []
 nameOverride: ""
@@ -52,8 +55,10 @@ securityContext: {}
   # runAsUser: 1000
 
 service:
-  type: ClusterIP
-  port: 80
+  type: NodePort
+  port: 8003
+  targetPort: 8001
+  nodePort: 30002
 
 ingress:
   enabled: false
