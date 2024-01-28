@@ -82,7 +82,7 @@ spec:
                 name:  movieflix
                 key: MLFLOW_SERVER
           - name: MLFLOW_MODELID
-            value: {{ .Values.mlflow.MLFLOW_MODELID}}
+            value: {{ .Values.mlflow.MLFLOW_MODELID | quote  }}
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
           - containerPort: {{ .Values.service.targetPort }}
