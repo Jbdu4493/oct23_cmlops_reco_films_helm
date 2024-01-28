@@ -79,7 +79,7 @@ spec:
           - name: MLFLOW_SERVER
             valueFrom:
               secretKeyRef:
-                name:  movieflix
+                name:  mysecret
                 key: MLFLOW_SERVER
           - name: MLFLOW_MODELID
             value: {{ .Values.mlflow.MLFLOW_MODELID | quote }}
