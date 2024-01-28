@@ -1,20 +1,20 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: movieflix-reco-films
+  name: movieflix-reco-films-prd
   namespace: argocd
 spec:
   project: default
   source:
     repoURL: 'https://github.com/Jbdu4493/oct23_cmlops_reco_films_helm.git'
     targetRevision: 'HEAD'  # Ou une autre branche/tag
-    path: .
+    path: ./PRD/
     helm:
       valueFiles:
         - values.yaml
   destination:
     server: 'https://kubernetes.default.svc'
-    namespace: movieflix
+    namespace: movieflix-prd
   syncPolicy:
 
     automated: 

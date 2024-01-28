@@ -76,10 +76,16 @@ spec:
               secretKeyRef:
                 name: mysecret
                 key: PORT
-          - name: MLFLOW_MODEL_ID
-            value: {{ .Values.mlflow.MLFLOW_MODEL_ID | quote }} 
           - name: MLFLOW_SERVER
-            value: {{ .Values.mlflow.MLFLOW_SERVER | quote }}
+            valueFrom:
+              secretKeyRef:
+                name:  movieflix
+                key: MLFLOW_SERVER
+          - name: MLFLOW_MODELID
+            valueFrom:
+              configMapKeyRef:
+                name: movieflix
+                key: {{ .Values.mlflow.MLFLOW_MODELID}}
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
           - containerPort: {{ .Values.service.targetPort }}

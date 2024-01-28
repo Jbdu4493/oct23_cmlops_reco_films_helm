@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: "{{ include "reco-film.fullname" . }}-test-connection"
+  labels:
+    {{- include "reco-film.labels" . | nindent 4 }}
+  annotations:
+    "helm.sh/hook": test
+spec:
+  containers:
+    - name: wget
+      image: busybox
+      command: ['wget']
+      args: ['{{ include "reco-film.fullname" . }}:{{ .Values.service.port }}']
+  restartPolicy: Never
