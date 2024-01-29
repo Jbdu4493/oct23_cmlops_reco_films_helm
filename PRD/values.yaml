@@ -24,7 +24,7 @@ mlflow:
   MLFLOW_MODELID: 1
   MLFLOW_SERVER: aHR0cDovLzEzLjM5LjgwLjEyMjo1MDAwLw==
 
-test: add5d71
+test: d375d43 # <----- test 
 
 imagePullSecrets: []
 nameOverride: ""
