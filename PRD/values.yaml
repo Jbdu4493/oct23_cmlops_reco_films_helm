@@ -24,6 +24,7 @@ mlflow:
   MLFLOW_MODELID: 1
   MLFLOW_SERVER: aHR0cDovLzEzLjM5LjgwLjEyMjo1MDAwLw==
 
+test: TOTO
 
 imagePullSecrets: []
 nameOverride: ""
