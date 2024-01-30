@@ -35,6 +35,13 @@ spec:
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          livenessProbe:
+            httpGet:
+              path: /status
+              port: {{- .Values.service.targetPort  }}
+            initialDelaySeconds: 15
+            timeoutSeconds: 2
+          initialDelaySeconds: 15
           env:
           - name: SECRET_KEY
             valueFrom:
