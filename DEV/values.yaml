@@ -6,7 +6,7 @@ replicaCount: 1
 
 image:
   repository: recofilmsmlopsoct2023/movieflix
-  pullPolicy: IfNotPresent
+  pullPolicy: Always
   # Overrides the image tag whose default is the chart appVersion.
   tag: "latest"
 
@@ -24,7 +24,6 @@ mlflow:
   MLFLOW_MODELID: 1
   MLFLOW_SERVER: aHR0cDovLzEzLjM5LjgwLjEyMjo1MDAwLw==
 
-test: TOTO
 
 imagePullSecrets: []
 nameOverride: ""

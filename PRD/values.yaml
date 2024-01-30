@@ -2,11 +2,11 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
-replicaCount: 5
+replicaCount: 1
 
 image:
   repository: recofilmsmlopsoct2023/movieflix
-  pullPolicy: IfNotPresent
+  pullPolicy: Always
   # Overrides the image tag whose default is the chart appVersion.
   tag: "latest"
 
@@ -23,8 +23,6 @@ secret:
 mlflow:
   MLFLOW_MODELID: 1
   MLFLOW_SERVER: aHR0cDovLzEzLjM5LjgwLjEyMjo1MDAwLw==
-
-test: ddf9dbe # <----- test 
 
 imagePullSecrets: []
 nameOverride: ""
