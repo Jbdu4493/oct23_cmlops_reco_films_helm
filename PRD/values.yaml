@@ -69,7 +69,7 @@ ingress:
     - host: movieflix-prd.local
       paths:
         - path: "/api"
-          pathType: ImplementationSpecific
+          pathType: Prefix
   tls: []
   #  - secretName: chart-example-tls
   #    hosts:
