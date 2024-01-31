@@ -37,7 +37,7 @@ serviceAccount:
   annotations: {}
   # The name of the service account to use.
   # If not set and create is true, a name is generated using the fullname template
-  name: ""
+  name: "api-reco-films"
 
 podAnnotations: {}
 podLabels: {}
@@ -57,7 +57,7 @@ service:
   type: NodePort
   port: 8003
   targetPort: 8001
-  nodePort: 30000
+  nodePort: 30004
 
 ingress:
   enabled: true
@@ -68,7 +68,7 @@ ingress:
   hosts:
     - host: chart-example.local
       paths:
-        - path: /api
+        - path: "/api"
           pathType: ImplementationSpecific
   tls: []
   #  - secretName: chart-example-tls
