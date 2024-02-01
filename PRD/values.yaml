@@ -8,7 +8,7 @@ image:
   repository: recofilmsmlopsoct2023/movieflix
   pullPolicy: Always
   # Overrides the image tag whose default is the chart appVersion.
-  tag: "latest"
+  tag: 52ec201
 
 secret:
   USER: "cG9zdGdyZXM="
