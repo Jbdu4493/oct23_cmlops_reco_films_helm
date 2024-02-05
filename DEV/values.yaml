@@ -4,7 +4,7 @@
 ENV: DEV
 #----------Ne pas toucher
 
-replicaCount: 5
+replicaCount: 3
 
 image:
   repository: recofilmsmlopsoct2023/movieflix
