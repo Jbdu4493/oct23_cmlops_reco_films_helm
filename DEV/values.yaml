@@ -57,7 +57,7 @@ securityContext: {}
   # runAsUser: 1000
 
 service:
-  type: NodePort
+  type: LoadBalancer
   port: 8001
   targetPort: 8001
   nodePort: 30001
