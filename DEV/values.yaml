@@ -7,8 +7,6 @@ ENV: DEV
 replicaCount: 3
 
 image:
-  repository: recofilmsmlopsoct2023/movieflix
-  pullPolicy: Always
   # Overrides the image tag whose default is the chart appVersion.
   tag: 88be9cc
 
@@ -55,24 +53,38 @@ securityContext: {}
   # readOnlyRootFilesystem: true
   # runAsNonRoot: true
   # runAsUser: 1000
+api:
+  image:
+    repository: recofilmsmlopsoct2023/movieflix
+    pullPolicy: Always
+  service:
+    type: NodePort
+    port: 8001
+    targetPort: 8001
+    nodePort: 30001
+  ingress:
+    - http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: movieflix-streamlit-dev
+                port:
+                  number: 8001
 
-service:
-  type: NodePort
-  port: 8001
-  targetPort: 8001
-  nodePort: 30001
 
 streamlit:
+  image:
+    repository: recofilmsmlopsoct2023/movieflix
+    pullPolicy: Always
   service:
     type: NodePort
     port: 8504
     targetPort: 8504
     nodePort: 30020
-    name: movieflix-streamlit-dev
-  repository: recofilmsmlopsoct2023/movieflix-streamlit
   ingress:
-    - host: "strealit.movieflix-dev.com"
-      http:
+    - http:
         paths:
           - path: /
             pathType: Prefix
@@ -84,15 +96,10 @@ streamlit:
 
 ingress:
   enabled: true
-  className: "nginx"
-  annotations: 
-    kubernetes.io/ingress.class: nginx
+  className: ""
+  annotations: {}
+    # kubernetes.io/ingress.class: nginx
     # kubernetes.io/tls-acme: "true"
-  hosts:
-    - host: movieflix-dev.com
-      paths:
-        - path: "/"
-          pathType: Prefix
   tls: []
   #  - secretName: chart-example-tls
   #    hosts:

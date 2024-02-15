@@ -1,6 +1,82 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
+  name: {{ .Values.deployment1.name }}
+spec:
+  {{- if not .Values.autoscaling.enabled }}
+  replicas: {{ .Values.replicaCount }}
+  {{- end }}
+  selector:
+    matchLabels:
+      app: {{ .Values.deployment1.name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.deployment1.name }}
+    spec:
+      containers:
+      - name: {{ .Values.deployment1.containerName }}
+        image: {{ .Values.deployment1.image }}:
+        env:
+          - name: SECRET_KEY
+            valueFrom:
+              secretKeyRef:
+                name: mysecret
+                key: SECRET_KEY
+          - name: ALGORITHM
+            valueFrom:
+              secretKeyRef:
+                name: mysecret
+                key: ALGORITHM          
+          - name: ACCESS_TOKEN_EXPIRATION
+            valueFrom:
+              secretKeyRef:
+                name: mysecret
+                key: ACCESS_TOKEN_EXPIRATION
+          - name: DBNAME
+            valueFrom:
+              secretKeyRef:
+                name: mysecret
+                key: DBNAME
+          - name: USER
+            valueFrom:
+              secretKeyRef:
+                name: mysecret
+                key: USER          
+          - name: PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: mysecret
+                key: PASSWORD
+          - name: HOST
+            valueFrom:
+              secretKeyRef:
+                name: mysecret
+                key: HOST
+          - name: PORT
+            valueFrom:
+              secretKeyRef:
+                name: mysecret
+                key: PORT
+          - name: MLFLOW_SERVER
+            valueFrom:
+              secretKeyRef:
+                name:  mysecret
+                key: MLFLOW_SERVER
+          - name: MLFLOW_MODELID
+            value: {{ .Values.mlflow.MLFLOW_MODELID | quote }}
+          - name: ENV
+            value: {{ .Values.ENV | quote }}
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+          - containerPort: {{ .Values.service.targetPort }}
+
+
+
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
   name: {{ include "reco-film.fullname" . }}
   labels:
     {{- include "reco-film.labels" . | nindent 4 }}
@@ -10,7 +86,7 @@ spec:
   {{- end }}
   selector:
     matchLabels:
-      {{- include "reco-film.selectorLabels" . | nindent 6 }}
+      {{- include "reco-film.matchLabels" . | nindent 6 }}
   template:
     metadata:
       {{- with .Values.podAnnotations }}
