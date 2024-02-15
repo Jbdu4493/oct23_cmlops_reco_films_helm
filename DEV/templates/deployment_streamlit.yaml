@@ -1,0 +1,55 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "reco-film.fullname" . }}
+  labels:
+    {{- include "reco-film.labels" . | nindent 4 }}
+spec:
+  {{- if not .Values.autoscaling.enabled }}
+  replicas: {{ .Values.replicaCount }}
+  {{- end }}
+  selector:
+    matchLabels:
+      {{- include "reco-film.selectorLabels" . | nindent 6 }}
+      app: streamlit
+  template:
+    metadata:
+      {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "reco-film.labels" . | nindent 8 }}
+        {{- with .Values.podLabels }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "reco-film.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      containers:
+        - name: {{ printf "%s-%s" .Chart.Name "streamlit" | quote }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: {{ .Values.streamlit.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}
+          livenessProbe:
+            httpGet:
+              path: "/"
+              port: {{ .Values.streamlit.service.targetPort  }}
+            initialDelaySeconds: 15
+            timeoutSeconds: 2
+          env:
+          - name: SECRET_KEY
+            valueFrom:
+              secretKeyRef:
+                name: mysecret
+                key: SECRET_KEY
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+          - containerPort: {{ .Values.streamlit.service.targetPort }}
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}

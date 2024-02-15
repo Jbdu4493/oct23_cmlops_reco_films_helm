@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.streamlit.service.name}}
+  labels:
+    {{- include "reco-film.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.streamlit.service.type }}
+  ports:
+    - port: {{ .Values.streamlit.service.port }}
+      targetPort: {{ .Values.streamlit.service.targetPort }}
+      nodePort:  {{  .Values.streamlit.service.nodePort }}
+      protocol: TCP
+  selector:
+    {{- include "reco-film.selectorLabels" . | nindent 4 }}
+    app: streamlit

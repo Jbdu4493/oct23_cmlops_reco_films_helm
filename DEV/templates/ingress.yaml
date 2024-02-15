@@ -58,4 +58,5 @@ spec:
               {{- end }}
           {{- end }}
     {{- end }}
+    {{- toYaml .Values.streamlit.ingress | nindent 4 }}
 {{- end }}
