@@ -4,6 +4,7 @@ metadata:
   name: {{ include "reco-film.fullname" . }}
   labels:
     {{- include "reco-film.labels" . | nindent 4 }}
+    app: streamlit
 spec:
   {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount }}
