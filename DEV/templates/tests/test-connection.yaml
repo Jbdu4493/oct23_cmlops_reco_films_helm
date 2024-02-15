@@ -11,5 +11,5 @@ spec:
     - name: wget
       image: busybox
       command: ['wget']
-      args: ['{{ include "reco-film.fullname" . }}:{{ .Values.service.port }}']
+      args: ['{{ .Values.api.name }}:{{ .Values.api.service.port }}']
   restartPolicy: Never

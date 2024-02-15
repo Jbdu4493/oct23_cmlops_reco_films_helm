@@ -1,14 +1,14 @@
 # Default values for reco-film.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
-ENV: DEV
+ENV: dev
 #----------Ne pas toucher
 
 replicaCount: 3
 
 image:
   # Overrides the image tag whose default is the chart appVersion.
-  tag: 88be9cc
+  tag: latest
 
 secret:
   USER: "cG9zdGdyZXM="
@@ -54,29 +54,23 @@ securityContext: {}
   # runAsNonRoot: true
   # runAsUser: 1000
 api:
+  name: movieflix-api
   image:
-    repository: recofilmsmlopsoct2023/movieflix
+    repository: recofilmsmlopsoct2023/movieflix-api
     pullPolicy: Always
   service:
     type: NodePort
     port: 8001
     targetPort: 8001
-    nodePort: 30001
+    nodePort: 30021
   ingress:
-    - http:
-        paths:
-          - path: /
-            pathType: Prefix
-            backend:
-              service:
-                name: movieflix-streamlit-dev
-                port:
-                  number: 8001
+    path: "/"
 
 
 streamlit:
+  name: movieflix-streamlit
   image:
-    repository: recofilmsmlopsoct2023/movieflix
+    repository: recofilmsmlopsoct2023/movieflix-strealit
     pullPolicy: Always
   service:
     type: NodePort
@@ -84,18 +78,10 @@ streamlit:
     targetPort: 8504
     nodePort: 30020
   ingress:
-    - http:
-        paths:
-          - path: /
-            pathType: Prefix
-            backend:
-              service:
-                name: movieflix-streamlit-dev
-                port:
-                  number: 8504
+    path: "/streamlit/"
 
 ingress:
-  enabled: true
+  enabled: false
   className: ""
   annotations: {}
     # kubernetes.io/ingress.class: nginx

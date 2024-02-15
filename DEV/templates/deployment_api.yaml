@@ -1,22 +1,22 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ .Values.deployment1.name }}
+  name: {{ printf "%s-%s"  .Values.api.name .Values.ENV | quote }}
 spec:
   {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount }}
   {{- end }}
   selector:
     matchLabels:
-      app: {{ .Values.deployment1.name }}
+      app: {{ printf "%s-%s"  .Values.api.name .Values.ENV | quote }}
   template:
     metadata:
       labels:
-        app: {{ .Values.deployment1.name }}
+        app: {{ printf "%s-%s"  .Values.api.name .Values.ENV | quote }}
     spec:
       containers:
-      - name: {{ .Values.deployment1.containerName }}
-        image: {{ .Values.deployment1.image }}:
+      - name: {{ .Values.api.name }}
+        image: {{ .Values.api.image.repository }}:{{ .Values.image.tag }}
         env:
           - name: SECRET_KEY
             valueFrom:
@@ -67,128 +67,8 @@ spec:
             value: {{ .Values.mlflow.MLFLOW_MODELID | quote }}
           - name: ENV
             value: {{ .Values.ENV | quote }}
-          imagePullPolicy: {{ .Values.image.pullPolicy }}
-          ports:
-          - containerPort: {{ .Values.service.targetPort }}
-
-
-
-
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: {{ include "reco-film.fullname" . }}
-  labels:
-    {{- include "reco-film.labels" . | nindent 4 }}
-spec:
-  {{- if not .Values.autoscaling.enabled }}
-  replicas: {{ .Values.replicaCount }}
-  {{- end }}
-  selector:
-    matchLabels:
-      {{- include "reco-film.matchLabels" . | nindent 6 }}
-  template:
-    metadata:
-      {{- with .Values.podAnnotations }}
-      annotations:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
-      labels:
-        {{- include "reco-film.labels" . | nindent 8 }}
-        {{- with .Values.podLabels }}
-        {{- toYaml . | nindent 8 }}
-        {{- end }}
-    spec:
-      {{- with .Values.imagePullSecrets }}
-      imagePullSecrets:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
-      serviceAccountName: {{ include "reco-film.serviceAccountName" . }}
-      securityContext:
-        {{- toYaml .Values.podSecurityContext | nindent 8 }}
-      containers:
-        - name: {{ .Chart.Name }}
-          securityContext:
-            {{- toYaml .Values.securityContext | nindent 12 }}
-          image: {{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}
-          livenessProbe:
-            httpGet:
-              path: "/status"
-              port: {{ .Values.service.targetPort  }}
-            initialDelaySeconds: 15
-            timeoutSeconds: 2
-          env:
-          - name: SECRET_KEY
-            valueFrom:
-              secretKeyRef:
-                name: mysecret
-                key: SECRET_KEY
-          - name: ALGORITHM
-            valueFrom:
-              secretKeyRef:
-                name: mysecret
-                key: ALGORITHM          
-          - name: ACCESS_TOKEN_EXPIRATION
-            valueFrom:
-              secretKeyRef:
-                name: mysecret
-                key: ACCESS_TOKEN_EXPIRATION
-          - name: DBNAME
-            valueFrom:
-              secretKeyRef:
-                name: mysecret
-                key: DBNAME
-          - name: USER
-            valueFrom:
-              secretKeyRef:
-                name: mysecret
-                key: USER          
-          - name: PASSWORD
-            valueFrom:
-              secretKeyRef:
-                name: mysecret
-                key: PASSWORD
-          - name: HOST
-            valueFrom:
-              secretKeyRef:
-                name: mysecret
-                key: HOST
-          - name: PORT
-            valueFrom:
-              secretKeyRef:
-                name: mysecret
-                key: PORT
-          - name: MLFLOW_SERVER
-            valueFrom:
-              secretKeyRef:
-                name:  mysecret
-                key: MLFLOW_SERVER
-          - name: MLFLOW_MODELID
-            value: {{ .Values.mlflow.MLFLOW_MODELID | quote }}
-          - name: ENV
-            value: {{ .Values.ENV | quote }}
-          imagePullPolicy: {{ .Values.image.pullPolicy }}
-          ports:
-          - containerPort: {{ .Values.service.targetPort }}
-          resources:
-            {{- toYaml .Values.resources | nindent 12 }}
-          {{- with .Values.volumeMounts }}
-          volumeMounts:
-            {{- toYaml . | nindent 12 }}
-          {{- end }}
-      {{- with .Values.volumes }}
-      volumes:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
-      {{- with .Values.nodeSelector }}
-      nodeSelector:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
-      {{- with .Values.affinity }}
-      affinity:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
-      {{- with .Values.tolerations }}
-      tolerations:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
+          - name: TAG
+            value: {{ .Values.image.tag }}
+        imagePullPolicy: {{ .Values.api.image.pullPolicy }}
+        ports:
+        - containerPort: {{ .Values.api.service.targetPort }}
