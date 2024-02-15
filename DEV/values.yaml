@@ -63,10 +63,10 @@ service:
   nodePort: 30001
 
 ingress:
-  enabled: false
-  className: "nginx"
-  annotations: 
-    kubernetes.io/ingress.class: nginx
+  enabled: true
+  className: 
+  annotations:  {}
+    #kubernetes.io/ingress.class: nginx
     # kubernetes.io/tls-acme: "true"
   hosts:
     - host: movieflix-dev.com
