@@ -64,7 +64,7 @@ api:
     targetPort: "8001"
     nodePort: "30021"
   ingress:
-    path: "/api/"
+    path: "/api"
 
 
 streamlit:
@@ -78,7 +78,7 @@ streamlit:
     targetPort: "8504"
     nodePort: "30020"
   ingress:
-    path: "/streamlit/"
+    path: "/streamlit"
 
 ingress:
   enabled: false

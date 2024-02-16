@@ -13,8 +13,6 @@ spec:
               name: {{ printf "%s-%s"  .Values.api.name .Values.ENV | quote }}
               port: 
                 number: {{ .Values.api.service.port}}
-  - http:
-      paths:
         - path: {{ .Values.streamlit.ingress.path}}
           pathType: Prefix
           backend:
@@ -22,3 +20,4 @@ spec:
               name: {{ printf "%s-%s"  .Values.streamlit.name .Values.ENV | quote }}
               port: 
                 number: {{ .Values.streamlit.service.port}}
+        
