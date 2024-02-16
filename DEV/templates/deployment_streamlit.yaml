@@ -19,7 +19,7 @@ spec:
         image: {{ .Values.streamlit.image.repository }}:latest
         env:
           - name: APIURL
-            value: {{printf "%s-%s:%s" .Values.api.name .Values.ENV .Values.api.service.port | quote }}
+            value: {{printf "http://%s-%s:%d" .Values.api.name .Values.ENV .Values.api.service.port | quote }}
         imagePullPolicy: {{ .Values.streamlit.image.pullPolicy }}
         ports:
         - containerPort: {{ .Values.streamlit.service.targetPort }}
