@@ -10,7 +10,7 @@ spec:
           pathType: Prefix
           backend:
              service:
-              name: {{ .Values.api.name}}
+              name: {{ printf "%s-%s"  .Values.api.name .Values.ENV | quote }}
               port: 
                 number: {{ .Values.api.service.port}}
   - http:
@@ -19,6 +19,6 @@ spec:
           pathType: Prefix
           backend:
              service:
-              name: {{ .Values.streamlit.name}}
+              name: {{ printf "%s-%s"  .Values.streamlit.name .Values.ENV | quote }}
               port: 
                 number: {{ .Values.streamlit.service.port}}
