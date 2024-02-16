@@ -7,7 +7,7 @@ spec:
   project: default
   source:
     repoURL: 'https://github.com/Jbdu4493/oct23_cmlops_reco_films_helm.git'
-    targetRevision: 'streamlit/HEAD'  # Ou une autre branche/tag
+    targetRevision: 'streamlit'  # Ou une autre branche/tag
     path: ./DEV/
     helm:
       valueFiles:
