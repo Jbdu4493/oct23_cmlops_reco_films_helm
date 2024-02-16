@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: {{ .Values.streamlit.name }}
-        image: {{ .Values.streamlit.image.repository }}:1.0
+        image: {{ .Values.streamlit.image.repository }}:2.0
         env:
           - name: APIURL
             value: {{printf "http://%s-%s:%s" .Values.api.name .Values.ENV .Values.api.service.port | quote }}
