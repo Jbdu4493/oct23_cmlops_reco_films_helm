@@ -60,9 +60,9 @@ api:
     pullPolicy: Always
   service:
     type: LoadBalancer
-    port: 8001
-    targetPort: 8001
-    nodePort: 30021
+    port: "8001"
+    targetPort: "8001"
+    nodePort: "30021"
   ingress:
     path: "/"
 
@@ -74,9 +74,9 @@ streamlit:
     pullPolicy: Always
   service:
     type: LoadBalancer
-    port: 8504
-    targetPort: 8504
-    nodePort: 30020
+    port: "8504"
+    targetPort: "8504"
+    nodePort: "30020"
   ingress:
     path: "/streamlit/"
 
