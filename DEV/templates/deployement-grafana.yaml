@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ printf "%s-%s"  .Values.grafana.name .Values.ENV | quote }}
+spec:
+  {{- if not .Values.autoscaling.enabled }}
+  replicas: {{ .Values.replicaCount }}
+  {{- end }}
+  selector:
+    matchLabels:
+      app: {{ printf "%s-%s"  .Values.grafana.name .Values.ENV | quote }}
+  template:
+    metadata:
+      labels:
+        app: {{ printf "%s-%s"  .Values.grafana.name .Values.ENV | quote }}
+    spec:
+      containers:
+      - name: {{ .Values.grafana.name }}
+        image: {{ .Values.grafana.image.repository }}
+        volumeMounts:
+        - mountPath: /var/lib/grafana
+          name: {{ .Values.grafana.name }}-volume
+        imagePullPolicy:  {{ .Values.grafana.image.pullPolicy }}
+        ports:
+        - containerPort: {{ .Values.grafana.service.targetPort }}
+      volumes:
+      - name: {{ .Values.grafana.name }}-volume
+        emptyDir:
+          sizeLimit: 500Mi
+
+  
