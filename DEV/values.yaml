@@ -70,7 +70,7 @@ api:
 streamlit:
   name: movieflix-streamlit
   image:
-    repository: recofilmsmlopsoct2023/movieflix-strealit
+    repository: recofilmsmlopsoct2023/movieflix-streamlit
     pullPolicy: Always
   service:
     type: NodePort
