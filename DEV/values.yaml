@@ -8,7 +8,7 @@ replicaCount: 3
 
 image:
   # Overrides the image tag whose default is the chart appVersion.
-  tag: latest
+  tag: f07ba8d
 
 secret:
   USER: "cG9zdGdyZXM="
@@ -56,7 +56,7 @@ securityContext: {}
 api:
   name: movieflix-api
   image:
-    repository: recofilmsmlopsoct2023/movieflix-api
+    repository: recofilmsmlopsoct2023/movieflix
     pullPolicy: Always
   service:
     type: LoadBalancer
