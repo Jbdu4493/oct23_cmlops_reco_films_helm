@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ .Values.streamlit.name}}
+  name: {{ printf "%s-%s"  .Values.streamlit.name .Values.ENV | quote }}
   labels:
     {{- include "reco-film.labels" . | nindent 4 }}
 spec:
@@ -12,5 +12,4 @@ spec:
       nodePort:  {{  .Values.streamlit.service.nodePort }}
       protocol: TCP
   selector:
-    {{- include "reco-film.selectorLabels" . | nindent 4 }}
-    app: streamlit
+    app: {{ printf "%s-%s"  .Values.streamlit.name .Values.ENV | quote }}

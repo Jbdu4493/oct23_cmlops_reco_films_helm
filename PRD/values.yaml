@@ -1,7 +1,7 @@
 # Default values for reco-film.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
-ENV: PRD
+ENV: prd
 #----------Ne pas toucher
 replicaCount: 5
 
