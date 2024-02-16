@@ -59,7 +59,7 @@ api:
     repository: recofilmsmlopsoct2023/movieflix-api
     pullPolicy: Always
   service:
-    type: NodePort
+    type: LoadBalancer
     port: 8001
     targetPort: 8001
     nodePort: 30021
@@ -73,7 +73,7 @@ streamlit:
     repository: recofilmsmlopsoct2023/movieflix-streamlit
     pullPolicy: Always
   service:
-    type: NodePort
+    type: LoadBalancer
     port: 8504
     targetPort: 8504
     nodePort: 30020
