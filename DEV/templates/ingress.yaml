@@ -13,4 +13,11 @@ spec:
               name: {{printf "%s-%s" .Values.api.name .Values.ENV | quote }}
               port: 
                 number: {{.Values.api.service.port }}
+        - path: /streamlit
+          pathType: Prefix
+          backend:
+             service:
+              name: {{printf "%s-%s" .Values.streamlit.name .Values.ENV | quote }}
+              port: 
+                number: {{ .Values.streamlit.service.port }}
         
