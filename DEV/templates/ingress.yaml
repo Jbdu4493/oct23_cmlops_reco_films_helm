@@ -10,7 +10,7 @@ spec:
           pathType: Prefix
           backend:
              service:
-              name: nginx
+              name: {{printf "%s-%s" .Values.api.name .Values.ENV | quote }}
               port: 
-                number: 80
+                number: {{.Values.api.service.port }}
         
