@@ -1,7 +1,7 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: movieflix-ingress-{{.Values.ENV }}
+  name: movieflix-ingress-streamlit-{{.Values.ENV }}
 spec:
   rules:
   - http:
@@ -10,7 +10,6 @@ spec:
           pathType: Prefix
           backend:
              service:
-              name: {{printf "%s-%s" .Values.api.name .Values.ENV | quote }}
+              name: {{printf "%s-%s" .Values.streamlit.name .Values.ENV | quote }}
               port: 
-                number: {{.Values.api.service.port }}
-        
+                number: {{.Values.streamlit.service.port }}
