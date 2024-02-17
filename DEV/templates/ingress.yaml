@@ -6,18 +6,11 @@ spec:
   rules:
   - http:
       paths:
-        - path: {{ .Values.api.ingress.path}}
+        - path: "/"
           pathType: Prefix
           backend:
              service:
-              name: {{ printf "%s-%s"  .Values.api.name .Values.ENV | quote }}
+              name: nginx
               port: 
-                number: {{ .Values.api.service.port}}
-        # - path: {{ .Values.streamlit.ingress.path}}
-        #   pathType: Prefix
-        #   backend:
-        #      service:
-        #       name: {{ printf "%s-%s"  .Values.streamlit.name .Values.ENV | quote }}
-        #       port: 
-        #         number: {{ .Values.streamlit.service.port}}
+                number: 80
         
