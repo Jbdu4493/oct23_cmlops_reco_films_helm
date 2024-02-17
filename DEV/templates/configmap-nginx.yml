@@ -7,11 +7,14 @@ data:
     events {
       worker_connections 1024;
     }
-    
+
     http {
       server {
         listen 80;
-
+        location / {
+          root /usr/share/nginx/html;  # Assurez-vous que ce chemin est correct
+          index index.html;
+        }
         location /streamlit/ {
             rewrite ^/streamlit(/.*)$ $1 break;
             proxy_pass {{ printf "http://%s-%s:%s"  .Values.streamlit.name .Values.ENV .Values.streamlit.service.port }}/;
