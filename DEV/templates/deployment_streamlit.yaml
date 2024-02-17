@@ -23,3 +23,12 @@ spec:
         imagePullPolicy: {{ .Values.streamlit.image.pullPolicy }}
         ports:
         - containerPort: {{ .Values.streamlit.service.targetPort }}
+        resources:
+          limits:
+            cpu: 250m
+            ephemeral-storage: 500Mi
+            memory: 1Gi
+          requests:
+            cpu: 250m
+            ephemeral-storage: 500Mi
+            memory: 1Gi

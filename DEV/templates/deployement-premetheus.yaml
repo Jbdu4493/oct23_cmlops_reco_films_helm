@@ -27,8 +27,18 @@ spec:
         - "/bin/prometheus"
         args:
         - "--config.file=/etc/prometheus/prometheus.yml"
+        resources:
+          limits:
+            cpu: 250m
+            ephemeral-storage: 500Mi
+            memory: 1Gi
+          requests:
+            cpu: 250m
+            ephemeral-storage: 500Mi
+            memory: 1Gi
       volumes:
       - name: config-volume
         configMap:
           name: {{ printf "%s-%s-%s"  .Values.grafana.name "config" .Values.ENV | quote }}
+
 
