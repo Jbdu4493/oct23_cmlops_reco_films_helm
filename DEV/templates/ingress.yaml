@@ -13,7 +13,7 @@ spec:
               name: {{printf "%s-%s" .Values.api.name .Values.ENV | quote }}
               port: 
                 number: {{.Values.api.service.port }}
-        - path: /streamlit
+        - path: /streamlit/
           pathType: Prefix
           backend:
              service:
