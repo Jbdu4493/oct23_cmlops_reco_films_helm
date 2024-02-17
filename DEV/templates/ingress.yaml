@@ -1,12 +1,12 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: movieflix-ingress
+  name: movieflix-ingress-{{.Values.ENV }}
 spec:
   rules:
   - http:
       paths:
-        - path: "/"
+        - path: /
           pathType: Prefix
           backend:
              service:
