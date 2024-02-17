@@ -12,8 +12,9 @@ data:
       server {
         listen 80;
         location / {
-          root /usr/share/nginx/html;  # Assurez-vous que ce chemin est correct
-          index index.html;
+            proxy_pass {{ printf "http://%s-%s:%s"  .Values.api.name .Values.ENV .Values.api.service.port }}/;
+            proxy_set_header Host $host;
+            proxy_set_header X-Forwarded-For $remote_addr;
         }
         location /streamlit/ {
             rewrite ^/streamlit(/.*)$ $1 break;
