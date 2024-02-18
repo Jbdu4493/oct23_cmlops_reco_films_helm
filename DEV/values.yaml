@@ -63,8 +63,6 @@ api:
     port: "8001"
     targetPort: "8001"
     nodePort: "30021"
-  ingress:
-    path: "/"
 
 
 streamlit:
@@ -77,8 +75,6 @@ streamlit:
     port: "8504"
     targetPort: "8504"
     nodePort: "30020"
-  ingress:
-    path: "/"
 
 prometheus:
   name: prometheus
