@@ -20,6 +20,8 @@ spec:
         env:
           - name: APIURL
             value: {{printf "http://%s-%s:%s" .Values.api.name .Values.ENV .Values.api.service.port | quote }}
+          - name: STREAMLIT_SERVER_PORT
+            value: {{ .Values.streamlit.service.port | quote }}
         imagePullPolicy: {{ .Values.streamlit.image.pullPolicy }}
         ports:
         - containerPort: {{ .Values.streamlit.service.targetPort }}
