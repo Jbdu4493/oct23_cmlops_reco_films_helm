@@ -27,7 +27,7 @@ spec:
         - containerPort: {{ .Values.streamlit.service.targetPort }}
         resources:
           limits:
-            cpu: 250m
+            cpu: 125m
             ephemeral-storage: 500Mi
             memory: 1Gi
           requests:
