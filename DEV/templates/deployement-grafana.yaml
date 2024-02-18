@@ -25,13 +25,13 @@ spec:
         - containerPort: {{ .Values.grafana.service.targetPort }}
         resources:
           limits:
-            cpu: 250m
-            ephemeral-storage: 500Mi
-            memory: 1Gi
+            cpu: 30m
+            ephemeral-storage: 100Mi
+            memory: 100Mi
           requests:
-            cpu: 250m
-            ephemeral-storage: 500Mi
-            memory: 1Gi
+            cpu: 100m
+            ephemeral-storage: 300Mi
+            memory: 300Gi
       volumes:
       - name: {{ .Values.grafana.name }}-volume
         emptyDir:
