@@ -33,9 +33,9 @@ spec:
             ephemeral-storage: 100Mi
             memory: 100Mi
           requests:
-            cpu: 100m
-            ephemeral-storage: 300Mi
-            memory: 300Gi
+            cpu: 30m
+            ephemeral-storage: 100Mi
+            memory: 100Mi
       volumes:
       - name: config-volume
         configMap:
