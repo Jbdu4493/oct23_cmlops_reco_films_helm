@@ -4,7 +4,7 @@
 ENV: dev
 #----------Ne pas toucher
 
-replicaCount: 1
+replicaCount: 2
 
 image:
   # Overrides the image tag whose default is the chart appVersion.
