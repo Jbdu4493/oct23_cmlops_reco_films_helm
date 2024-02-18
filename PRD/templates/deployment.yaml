@@ -34,7 +34,7 @@ spec:
         - name: {{ .Chart.Name }}
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
-          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          image: {{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}
           livenessProbe:
             httpGet:
               path: "/status"
@@ -88,7 +88,7 @@ spec:
                 name:  mysecret
                 key: MLFLOW_SERVER
           - name: MLFLOW_MODELID
-            value: {{ .Values.mlflow.MLFLOW_MODELID | quote  }}
+            value: {{ .Values.mlflow.MLFLOW_MODELID | quote }}
           - name: ENV
             value: {{ .Values.ENV | quote }}
           imagePullPolicy: {{ .Values.image.pullPolicy }}

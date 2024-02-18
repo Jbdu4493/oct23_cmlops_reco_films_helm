@@ -1,0 +1,83 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ printf "%s-%s"  .Values.api.name .Values.ENV | quote }}
+spec:
+  {{- if not .Values.autoscaling.enabled }}
+  replicas: {{ .Values.replicaCount }}
+  {{- end }}
+  selector:
+    matchLabels:
+      app: {{ printf "%s-%s"  .Values.api.name .Values.ENV | quote }}
+  template:
+    metadata:
+      labels:
+        app: {{ printf "%s-%s"  .Values.api.name .Values.ENV | quote }}
+    spec:
+      containers:
+      - name: {{ .Values.api.name }}
+        image: {{ .Values.api.image.repository }}:{{ .Values.image.tag }}
+        env:
+          - name: SECRET_KEY
+            valueFrom:
+              secretKeyRef:
+                name: mysecret
+                key: SECRET_KEY
+          - name: ALGORITHM
+            valueFrom:
+              secretKeyRef:
+                name: mysecret
+                key: ALGORITHM          
+          - name: ACCESS_TOKEN_EXPIRATION
+            valueFrom:
+              secretKeyRef:
+                name: mysecret
+                key: ACCESS_TOKEN_EXPIRATION
+          - name: DBNAME
+            valueFrom:
+              secretKeyRef:
+                name: mysecret
+                key: DBNAME
+          - name: USER
+            valueFrom:
+              secretKeyRef:
+                name: mysecret
+                key: USER          
+          - name: PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: mysecret
+                key: PASSWORD
+          - name: HOST
+            valueFrom:
+              secretKeyRef:
+                name: mysecret
+                key: HOST
+          - name: PORT
+            valueFrom:
+              secretKeyRef:
+                name: mysecret
+                key: PORT
+          - name: MLFLOW_SERVER
+            valueFrom:
+              secretKeyRef:
+                name:  mysecret
+                key: MLFLOW_SERVER
+          - name: MLFLOW_MODELID
+            value: {{ .Values.mlflow.MLFLOW_MODELID | quote }}
+          - name: ENV
+            value: {{ .Values.ENV | quote }}
+          - name: TAG
+            value: {{ .Values.image.tag }}
+        imagePullPolicy: {{ .Values.api.image.pullPolicy }}
+        ports:
+        - containerPort: {{ .Values.api.service.targetPort }}
+        resources:
+          limits:
+            cpu: 250m
+            ephemeral-storage: 500Mi
+            memory: 1Gi
+          requests:
+            cpu: 250m
+            ephemeral-storage: 500Mi
+            memory: 1Gi
