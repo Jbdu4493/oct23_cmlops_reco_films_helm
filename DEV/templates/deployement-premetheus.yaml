@@ -4,7 +4,7 @@ metadata:
   name: {{ printf "%s-%s"  .Values.prometheus.name .Values.ENV | quote }}
 spec:
   {{- if not .Values.autoscaling.enabled }}
-  replicas: {{ .Values.replicaCount }}
+  replicas: 1
   {{- end }}
   selector:
     matchLabels:
