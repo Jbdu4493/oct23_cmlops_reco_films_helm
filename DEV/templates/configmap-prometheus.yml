@@ -1,4 +1,4 @@
-apiVersion: apps/v1
+apiVersion: v1
 kind: ConfigMap
 metadata:
   name: {{ printf "%s-%s-%s"  .Values.grafana.name "config" .Values.ENV | quote }}

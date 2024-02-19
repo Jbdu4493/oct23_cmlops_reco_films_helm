@@ -29,12 +29,12 @@ spec:
         - "--config.file=/etc/prometheus/prometheus.yml"
         resources:
           limits:
-            cpu: 30m
-            ephemeral-storage: 100Mi
+            cpu: 100m
+            ephemeral-storage: 200Mi
             memory: 100Mi
           requests:
-            cpu: 30m
-            ephemeral-storage: 100Mi
+            cpu: 100m
+            ephemeral-storage: 200Mi
             memory: 100Mi
       volumes:
       - name: config-volume
