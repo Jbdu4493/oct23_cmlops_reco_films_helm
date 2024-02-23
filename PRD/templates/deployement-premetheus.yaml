@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ printf "%s-%s"  .Values.prometheus.name .Values.ENV | quote }}
+spec:
+  {{- if not .Values.autoscaling.enabled }}
+  replicas: 1
+  {{- end }}
+  selector:
+    matchLabels:
+      app: {{ printf "%s-%s"  .Values.prometheus.name .Values.ENV | quote }}
+  template:
+    metadata:
+      labels:
+        app: {{ printf "%s-%s"  .Values.prometheus.name .Values.ENV | quote }}
+    spec:
+      containers:
+      - name: {{ .Values.prometheus.name }}
+        image: {{ .Values.prometheus.image.repository }}
+        imagePullPolicy: {{ .Values.prometheus.image.pullPolicy }}
+        ports:
+        - containerPort: {{ .Values.prometheus.service.port }}
+        volumeMounts:
+        - name: config-volume
+          mountPath: "/etc/prometheus/"
+        command:
+        - "/bin/prometheus"
+        args:
+        - "--config.file=/etc/prometheus/prometheus.yml"
+        resources:
+          limits:
+            cpu: 100m
+            ephemeral-storage: 200Mi
+            memory: 100Mi
+          requests:
+            cpu: 100m
+            ephemeral-storage: 200Mi
+            memory: 100Mi
+      volumes:
+      - name: config-volume
+        configMap:
+          name: {{ printf "%s-%s-%s"  .Values.grafana.name "config" .Values.ENV | quote }}
+
+

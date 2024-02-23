@@ -3,13 +3,12 @@
 # Declare variables to be passed into your templates.
 ENV: prd
 #----------Ne pas toucher
-replicaCount: 5
+
+replicaCount: 1
 
 image:
-  repository: recofilmsmlopsoct2023/movieflix
-  pullPolicy: Always
   # Overrides the image tag whose default is the chart appVersion.
-  tag: 8ce162d
+  tag: e782d20
 
 secret:
   USER: "cG9zdGdyZXM="
@@ -24,6 +23,7 @@ secret:
 mlflow:
   MLFLOW_MODELID: 1
   MLFLOW_SERVER: aHR0cDovLzEzLjM5LjgwLjEyMjo1MDAwLw==
+
 
 imagePullSecrets: []
 nameOverride: ""
@@ -53,28 +53,52 @@ securityContext: {}
   # readOnlyRootFilesystem: true
   # runAsNonRoot: true
   # runAsUser: 1000
+api:
+  name: movieflix-api
+  image:
+    repository: recofilmsmlopsoct2023/movieflix-api
+    pullPolicy: Always
+  service:
+    type: LoadBalancer
+    port: "8002"
+    targetPort: "8002"
+    nodePort: "30022"
 
-service:
-  type: NodePort
-  port: 8001
-  targetPort: 8001
-  nodePort: 30000
 
-ingress:
-  enabled: true
-  className: "nginx"
-  annotations: 
-    kubernetes.io/ingress.class: nginx
-    # kubernetes.io/tls-acme: "true"
-  hosts:
-    - host:  movieflix-prd.com
-      paths:
-        - path: "/"
-          pathType: Prefix
-  tls: []
-  #  - secretName: chart-example-tls
-  #    hosts:
-  #      - chart-example.local
+streamlit:
+  name: movieflix-streamlit
+  image:
+    repository: recofilmsmlopsoct2023/movieflix-streamlit
+    pullPolicy: Always
+  service:
+    type: LoadBalancer
+    port: "8506"
+    targetPort: "8506"
+    nodePort: "30021"
+
+prometheus:
+  name: prometheus
+  image:
+    repository: prom/prometheus
+    pullPolicy: Always
+  service:
+    type: LoadBalancer
+    port: "9091"
+    targetPort: "9091"
+    nodePort: "30091"
+
+grafana:
+  name: grafana
+  image:
+    repository: grafana/grafana
+    pullPolicy: Always
+  service:
+    type: LoadBalancer
+    port: "3001"
+    targetPort: "3001"
+    nodePort: "30301"
+  
+
 
 resources: {}
   # We usually recommend not to specify default resources and to leave this as a conscious
@@ -91,7 +115,7 @@ resources: {}
 autoscaling:
   enabled: false
   minReplicas: 1
-  maxReplicas: 100
+  maxReplicas: 5
   targetCPUUtilizationPercentage: 80
   # targetMemoryUtilizationPercentage: 80
 
