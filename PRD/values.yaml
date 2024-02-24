@@ -61,7 +61,7 @@ api:
   service:
     type: LoadBalancer
     port: "8002"
-    targetPort: "8002"
+    targetPort: "8001"
     nodePort: "30022"
 
 
@@ -73,7 +73,7 @@ streamlit:
   service:
     type: LoadBalancer
     port: "8506"
-    targetPort: "8506"
+    targetPort: "8504"
     nodePort: "30021"
 
 prometheus:
@@ -84,7 +84,7 @@ prometheus:
   service:
     type: LoadBalancer
     port: "9091"
-    targetPort: "9091"
+    targetPort: "9090"
     nodePort: "30091"
 
 grafana:
