@@ -65,7 +65,7 @@ api:
 
 
 streamlit:
-  replicaCount: 2
+  replicaCount: 1
   name: movieflix-streamlit
   image:
     repository: recofilmsmlopsoct2023/movieflix-streamlit
