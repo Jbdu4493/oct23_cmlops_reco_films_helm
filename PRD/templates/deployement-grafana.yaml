@@ -25,11 +25,11 @@ spec:
         - containerPort: {{ .Values.grafana.service.targetPort }}
         resources:
           limits:
-            cpu: 100m
+            cpu: 30m
             ephemeral-storage: 100Mi
             memory: 100Mi
           requests:
-            cpu: 100m
+            cpu: 30m
             ephemeral-storage: 100Mi
             memory: 100Mi
       volumes:
