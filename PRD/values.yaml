@@ -4,7 +4,7 @@
 ENV: prd
 #----------Ne pas toucher
 
-replicaCount: 2
+replicaCount: 1
 
 image:
   # Overrides the image tag whose default is the chart appVersion.
