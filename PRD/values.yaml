@@ -4,8 +4,6 @@
 ENV: prd
 #----------Ne pas toucher
 
-replicaCount: 2
-
 image:
   # Overrides the image tag whose default is the chart appVersion.
   tag: eb56e68
@@ -54,6 +52,7 @@ securityContext: {}
   # runAsNonRoot: true
   # runAsUser: 1000
 api:
+  replicaCount: 2
   name: movieflix-api
   image:
     repository: recofilmsmlopsoct2023/movieflix-api
@@ -66,6 +65,7 @@ api:
 
 
 streamlit:
+  replicaCount: 2
   name: movieflix-streamlit
   image:
     repository: recofilmsmlopsoct2023/movieflix-streamlit

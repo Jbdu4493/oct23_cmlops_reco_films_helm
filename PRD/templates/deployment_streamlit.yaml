@@ -4,7 +4,7 @@ metadata:
   name: {{ printf "%s-%s"  .Values.streamlit.name .Values.ENV | quote }}
 spec:
   {{- if not .Values.autoscaling.enabled }}
-  replicas: {{ .Values.replicaCount }}
+  replicas: {{ .Values.streamlit.replicaCount }}
   {{- end }}
   selector:
     matchLabels:
