@@ -75,9 +75,10 @@ spec:
         resources:
           limits:
             cpu: 100m
-            ephemeral-storage: 700Mi
-            memory: 700Mi
+            ephemeral-storage: 350Mi
+            memory: 350Mi
+
           requests:
             cpu: 100m
-            ephemeral-storage: 700Mi
-            memory: 700Mi
+            ephemeral-storage: 350Mi
+            memory: 350Mi
