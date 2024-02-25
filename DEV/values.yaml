@@ -97,6 +97,14 @@ grafana:
     port: "3000"
     targetPort: "3000"
     nodePort: "30300"
+  env:
+    GF_SMTP_ENABLED: true
+    GF_SMTP_HOST: smtp.gmail.com:587
+    GF_SMTP_USER: cmVjb2ZpbG1zbWxvcHNvY3QyM0BnbWFpbC5jb20=
+    GF_SMTP_PASSWORD: aGF4ZCBjb3FoIHlpY2ogdG1nbA==
+    GF_SMTP_SKIP_VERIFY: false
+    GF_SMTP_FROM_ADDRESS: movieflix@grafana-prd.com
+    GF_SMTP_FROM_NAME: Grafana
   
 
 
