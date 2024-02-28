@@ -6,7 +6,7 @@ ENV: prd
 
 image:
   # Overrides the image tag whose default is the chart appVersion.
-  tag: eb56e68
+  tag: 4e403f2
 
 secret:
   USER: "cG9zdGdyZXM="
