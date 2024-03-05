@@ -52,7 +52,7 @@ securityContext: {}
   # runAsNonRoot: true
   # runAsUser: 1000
 api:
-  replicaCount: 2
+  replicaCount: 1
   name: movieflix-api
   image:
     repository: recofilmsmlopsoct2023/movieflix-api
