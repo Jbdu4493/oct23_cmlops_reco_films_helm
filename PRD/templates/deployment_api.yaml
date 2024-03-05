@@ -74,11 +74,11 @@ spec:
         - containerPort: {{ .Values.api.service.targetPort }}
         resources:
           limits:
-            cpu: 100m
+            cpu: 250m
             ephemeral-storage: 350Mi
-            memory: 350Mi
+            memory: 512Mi
 
           requests:
-            cpu: 100m
+            cpu: 250m
             ephemeral-storage: 350Mi
-            memory: 350Mi
+            memory: 512Mi
