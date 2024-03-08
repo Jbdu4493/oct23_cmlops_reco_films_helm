@@ -1,5 +1,0 @@
----
-# Source: airflow/templates/dag-processor/dag-processor-deployment.yaml
-################################
-## Airflow Dag Processor Deployment
-#################################
