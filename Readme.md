@@ -14,12 +14,6 @@ This project combines the power of Helm and ArgoCD to deploy a film recommendati
 - [Usage](#usage)
 - [Features](#features)
 - [Dependencies](#dependencies)
-- [Configuration](#configuration)
-- [Documentation](#documentation)
-- [Examples](#examples)
-- [Troubleshooting](#troubleshooting)
-- [Contributors](#contributors)
-- [License](#license)
 
 ## Installation
 

@@ -6,7 +6,7 @@ ENV: prd
 
 image:
   # Overrides the image tag whose default is the chart appVersion.
-  tag: 38e527d
+  tag: def065e
 
 secret:
   USER: "cG9zdGdyZXM="
@@ -52,7 +52,7 @@ securityContext: {}
   # runAsNonRoot: true
   # runAsUser: 1000
 api:
-  replicaCount: 2
+  replicaCount: 1
   name: movieflix-api
   image:
     repository: recofilmsmlopsoct2023/movieflix-api

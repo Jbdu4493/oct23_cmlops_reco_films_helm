@@ -19,21 +19,21 @@ spec:
         image: {{ .Values.grafana.image.repository }}
         volumeMounts:
         - mountPath: /var/lib/grafana
-          name: {{ .Values.grafana.name }}-volume
+          name: {{ .Values.grafana.name }}-volume-{{ .Values.ENV }}
         imagePullPolicy:  {{ .Values.grafana.image.pullPolicy }}
         ports:
         - containerPort: {{ .Values.grafana.service.targetPort }}
         resources:
           limits:
-            cpu: 30m
+            cpu: 250m
             ephemeral-storage: 100Mi
-            memory: 100Mi
+            memory: 512Mi
           requests:
-            cpu: 30m
+            cpu: 250m
             ephemeral-storage: 100Mi
-            memory: 100Mi
+            memory: 512Mi
       volumes:
-      - name: {{ .Values.grafana.name }}-volume
+      - name: {{ .Values.grafana.name }}-volume-{{ .Values.ENV }}
         emptyDir:
           sizeLimit: 500Mi
 
