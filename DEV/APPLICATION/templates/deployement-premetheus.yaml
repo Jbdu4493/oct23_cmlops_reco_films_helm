@@ -4,7 +4,7 @@ metadata:
   name: {{ printf "%s-%s"  .Values.prometheus.name .Values.ENV | quote }}
 spec:
   {{- if not .Values.autoscaling.enabled }}
-  replicas: 1
+  replicas: {{ .Values.replicaCount }}
   {{- end }}
   selector:
     matchLabels:
@@ -29,13 +29,13 @@ spec:
         - "--config.file=/etc/prometheus/prometheus.yml"
         resources:
           limits:
-            cpu: 50m
-            ephemeral-storage: 200Mi
-            memory: 100Mi
+            cpu: 250m
+            ephemeral-storage: 500Mi
+            memory: 1Gi
           requests:
-            cpu: 50m
-            ephemeral-storage: 200Mi
-            memory: 100Mi
+            cpu: 250m
+            ephemeral-storage: 500Mi
+            memory: 1Gi
       volumes:
       - name: config-volume
         configMap:

@@ -8,7 +8,7 @@ replicaCount: 1
 
 image:
   # Overrides the image tag whose default is the chart appVersion.
-  tag: 24ce457
+  tag: f07ba8d
 
 secret:
   USER: "cG9zdGdyZXM="
@@ -56,13 +56,15 @@ securityContext: {}
 api:
   name: movieflix-api
   image:
-    repository: recofilmsmlopsoct2023/movieflix-api
+    repository: recofilmsmlopsoct2023/movieflix
     pullPolicy: Always
   service:
     type: LoadBalancer
     port: "8001"
     targetPort: "8001"
     nodePort: "30021"
+  ingress:
+    path: "/"
 
 
 streamlit:
@@ -75,6 +77,8 @@ streamlit:
     port: "8504"
     targetPort: "8504"
     nodePort: "30020"
+  ingress:
+    path: "/"
 
 prometheus:
   name: prometheus
@@ -97,18 +101,8 @@ grafana:
     port: "3000"
     targetPort: "3000"
     nodePort: "30300"
-  env:
-    GF_SMTP_ENABLED: true
-    GF_SMTP_HOST: smtp.gmail.com:587
-    GF_SMTP_USER: cmVjb2ZpbG1zbWxvcHNvY3QyM0BnbWFpbC5jb20=
-    GF_SMTP_PASSWORD: aGF4ZCBjb3FoIHlpY2ogdG1nbA==
-    GF_SMTP_SKIP_VERIFY: false
-    GF_SMTP_FROM_ADDRESS: movieflix@grafana-prd.com
-    GF_SMTP_FROM_NAME: Grafana
   
-airflow:
-  image:
-      repository: recofilmsmlopsoct2023/airflow
+
 
 resources: {}
   # We usually recommend not to specify default resources and to leave this as a conscious

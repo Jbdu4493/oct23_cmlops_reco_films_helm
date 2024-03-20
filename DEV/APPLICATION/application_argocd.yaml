@@ -7,8 +7,8 @@ spec:
   project: default
   source:
     repoURL: 'https://github.com/Jbdu4493/oct23_cmlops_reco_films_helm.git'
-    targetRevision: HEAD  # Ou une autre branche/tag
-    path: ./DEV/
+    targetRevision: 'streamlit'  # Ou une autre branche/tag
+    path: ./DEV/APPLICATION
     helm:
       valueFiles:
         - values.yaml
@@ -21,4 +21,4 @@ spec:
       prune: true
       selfHeal: true
     syncOptions:
-      - CreateNamespace=true
+    - CreateNamespace=true
