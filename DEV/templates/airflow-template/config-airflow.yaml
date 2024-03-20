@@ -232,14 +232,14 @@ data:
     multi_namespace_mode = False
     namespace = default
     pod_template_file = /opt/airflow/pod_templates/pod_template_file.yaml
-    worker_container_repository = my-company/airflow
+    worker_container_repository = {{ .Values.airflow.image.repository }}
     worker_container_tag = {{ .Values.image.tag }}
     
     [kubernetes_executor]
     multi_namespace_mode = False
     namespace = default
     pod_template_file = /opt/airflow/pod_templates/pod_template_file.yaml
-    worker_container_repository = my-company/airflow
+    worker_container_repository = {{ .Values.airflow.image.repository }}
     worker_container_tag = {{ .Values.image.tag }}
     
     [logging]
@@ -781,7 +781,7 @@ spec:
         - name: wait-for-airflow-migrations
           resources:
             {}
-          image: my-company/airflow:{{ .Values.image.tag }}
+          image: {{ .Values.airflow.image.repository }}:{{ .Values.image.tag }}
           imagePullPolicy: IfNotPresent
           securityContext: 
             allowPrivilegeEscalation: false
@@ -845,7 +845,7 @@ spec:
       containers:
         # Always run the main scheduler container.
         - name: scheduler
-          image: my-company/airflow:{{ .Values.image.tag }}
+          image: {{ .Values.airflow.image.repository }}:{{ .Values.image.tag }}
           imagePullPolicy: IfNotPresent
           securityContext: 
             allowPrivilegeEscalation: false
@@ -939,7 +939,7 @@ spec:
         - name: scheduler-log-groomer
           resources:
             {}
-          image: my-company/airflow:{{ .Values.image.tag }}
+          image: {{ .Values.airflow.image.repository }}:{{ .Values.image.tag }}
           imagePullPolicy: IfNotPresent
           securityContext: 
             allowPrivilegeEscalation: false
@@ -1120,7 +1120,7 @@ spec:
         - name: wait-for-airflow-migrations
           resources:
             {}
-          image: my-company/airflow:{{ .Values.image.tag }}
+          image: {{ .Values.airflow.image.repository }}:{{ .Values.image.tag }}
           imagePullPolicy: IfNotPresent
           securityContext: 
             allowPrivilegeEscalation: false
@@ -1183,7 +1183,7 @@ spec:
                   key: connection
       containers:
         - name: webserver
-          image: my-company/airflow:{{ .Values.image.tag }}
+          image: {{ .Values.airflow.image.repository }}:{{ .Values.image.tag }}
           imagePullPolicy: IfNotPresent
           securityContext: 
             allowPrivilegeEscalation: false
@@ -1583,7 +1583,7 @@ spec:
         - name: wait-for-airflow-migrations
           resources:
             {}
-          image: my-company/airflow:{{ .Values.image.tag }}
+          image: {{ .Values.airflow.image.repository }}:{{ .Values.image.tag }}
           imagePullPolicy: IfNotPresent
           securityContext: 
             allowPrivilegeEscalation: false
@@ -1646,7 +1646,7 @@ spec:
                   key: connection
       containers:
         - name: triggerer
-          image: my-company/airflow:{{ .Values.image.tag }}
+          image: {{ .Values.airflow.image.repository }}:{{ .Values.image.tag }}
           imagePullPolicy: IfNotPresent
           securityContext: 
             allowPrivilegeEscalation: false
@@ -1729,7 +1729,7 @@ spec:
         - name: triggerer-log-groomer
           resources:
             {}
-          image: my-company/airflow:{{ .Values.image.tag }}
+          image: {{ .Values.airflow.image.repository }}:{{ .Values.image.tag }}
           imagePullPolicy: IfNotPresent
           securityContext: 
             allowPrivilegeEscalation: false
@@ -1824,7 +1824,7 @@ spec:
         - name: wait-for-airflow-migrations
           resources:
             {}
-          image: my-company/airflow:{{ .Values.image.tag }}
+          image: {{ .Values.airflow.image.repository }}:{{ .Values.image.tag }}
           imagePullPolicy: IfNotPresent
           securityContext: 
             allowPrivilegeEscalation: false
@@ -1887,7 +1887,7 @@ spec:
                   key: connection
       containers:
         - name: worker
-          image: my-company/airflow:{{ .Values.image.tag }}
+          image: {{ .Values.airflow.image.repository }}:{{ .Values.image.tag }}
           imagePullPolicy: IfNotPresent
           securityContext: 
             allowPrivilegeEscalation: false
@@ -1970,7 +1970,7 @@ spec:
                   name: airflow-broker-url
                   key: connection          
         - name: worker-log-groomer
-          image: my-company/airflow:{{ .Values.image.tag }}
+          image: {{ .Values.airflow.image.repository }}:{{ .Values.image.tag }}
           imagePullPolicy: IfNotPresent
           securityContext: 
             allowPrivilegeEscalation: false
@@ -2350,7 +2350,7 @@ spec:
       serviceAccountName: airflow-create-user-job
       containers:
         - name: create-user
-          image: my-company/airflow:{{ .Values.image.tag }}
+          image: {{ .Values.airflow.image.repository }}:{{ .Values.image.tag }}
           imagePullPolicy: IfNotPresent
           securityContext: 
             allowPrivilegeEscalation: false
@@ -2476,7 +2476,7 @@ spec:
       serviceAccountName: airflow-migrate-database-job
       containers:
         - name: run-airflow-migrations
-          image: my-company/airflow:{{ .Values.image.tag }}
+          image: {{ .Values.airflow.image.repository }}:{{ .Values.image.tag }}
           imagePullPolicy: IfNotPresent
           securityContext: 
             allowPrivilegeEscalation: false

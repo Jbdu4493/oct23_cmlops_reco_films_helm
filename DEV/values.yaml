@@ -106,7 +106,9 @@ grafana:
     GF_SMTP_FROM_ADDRESS: movieflix@grafana-prd.com
     GF_SMTP_FROM_NAME: Grafana
   
-
+airflow:
+  image:
+      repository: recofilmsmlopsoct2023/airflow
 
 resources: {}
   # We usually recommend not to specify default resources and to leave this as a conscious
