@@ -2,3 +2,9 @@ airflow:
   image:
     tag: 24ce457
     repository: recofilmsmlopsoct2023/airflow
+  createUserJob:
+    useHelmHooks: false
+  migrateDatabaseJob:
+    useHelmHooks: false
+    jobAnnotations:
+      "argocd.argoproj.io/hook": Sync
