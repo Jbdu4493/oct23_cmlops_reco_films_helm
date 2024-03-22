@@ -2312,16 +2312,11 @@ data:
 #################################
 apiVersion: batch/v1
 kind: Job
+
 metadata:
   name: airflow-create-user
-  labels:
-    tier: airflow
-    component: create-user-job
-    release: airflow
-    chart: "airflow-1.13.0"
-    heritage: Helm
   annotations:
-    argocd.argoproj.io/hook: Sync
+    argocd.argoproj.io/hook: Sync 
 spec:
   ttlSecondsAfterFinished: 300
   template:
@@ -2438,16 +2433,7 @@ apiVersion: batch/v1
 kind: Job
 metadata:
   name: airflow-run-airflow-migrations
-  labels:
-    tier: airflow
-    component: run-airflow-migrations
-    release: airflow
-    chart: "airflow-1.13.0"
-    heritage: Helm
   annotations:
-    helm.sh/hook: post-install,post-upgrade
-    helm.sh/hook-delete-policy: before-hook-creation,hook-succeeded
-    helm.sh/hook-weight: "1"
     argocd.argoproj.io/hook: Sync
 spec:
   ttlSecondsAfterFinished: 300
