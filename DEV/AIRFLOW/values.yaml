@@ -1,2 +1,3 @@
-tag: 24ce457
-repository: recofilmsmlopsoct2023/airflow
+airflow:
+  tag: 24ce457
+  repository: recofilmsmlopsoct2023/airflow
