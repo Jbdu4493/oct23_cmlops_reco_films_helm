@@ -675,7 +675,7 @@ metadata:
     chart: "airflow-1.13.0"
     heritage: Helm
 spec:
-  type: ClusterIP
+  type: LoadBalancer
   selector:
     tier: airflow
     component: webserver
