@@ -2580,7 +2580,6 @@ spec:
         []
       topologySpreadConstraints:
         []
-      serviceAccountName: airflow-variables-job
       containers:
         - name: run-airflow-variables
           image: {{ .Values.airflow.image.repository }}:{{ .Values.airflow.image.tag }}
