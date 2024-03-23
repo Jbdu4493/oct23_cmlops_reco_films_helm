@@ -2556,7 +2556,7 @@ kind: Job
 metadata:
   name: airflow-variable-creation
   annotations:
-    argocd.argoproj.io/hook: PostSync
+    argocd.argoproj.io/hook: Sync
 spec:
   ttlSecondsAfterFinished: 300
   template:
