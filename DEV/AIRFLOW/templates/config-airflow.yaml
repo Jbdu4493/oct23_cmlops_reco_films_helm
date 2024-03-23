@@ -2594,9 +2594,7 @@ spec:
             - -c
             - |-
               exec \
-              airflow variables set mlflowserver {{ .Values.variables.mlflowserver | b64dec }};
-              airflow variables set experiment_name {{ .Values.variables.experiment_name }};
-              airflow variables set database_uri {{ .Values.variables.database_uri | b64dec }}
+              airflow variables set mlflowserver {{ .Values.variables.mlflowserver | b64dec }};airflow variables set experiment_name {{ .Values.variables.experiment_name }};airflow variables set database_uri {{ .Values.variables.database_uri | b64dec }}
           envFrom:          
             []
           env:          
