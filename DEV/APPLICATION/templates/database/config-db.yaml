@@ -119,7 +119,7 @@ spec:
       - name: POSTGRES_HOST
         value: {{ printf "%s-%s"  .Values.database.name .Values.ENV | quote }}
       - name: POSTGRES_PORT
-        value: {{ .Values.service.port }}
+        value: {{ .Values.database.service.port }}
       - name: PYTHONUNBUFFERED
         value: "1"
   restartPolicy: Never
