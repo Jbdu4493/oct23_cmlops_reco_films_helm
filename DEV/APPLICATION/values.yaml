@@ -101,7 +101,15 @@ grafana:
     port: "3000"
     targetPort: "3000"
     nodePort: "30300"
-  
+
+database:
+  name: movieflix-database
+  image:
+    database: postgres:latest
+    initdb: recofilmsmlopsoct2023/movieflix-initdb:latest
+  service:
+    port: "5431"
+    targetport: "5432"
 
 
 resources: {}
