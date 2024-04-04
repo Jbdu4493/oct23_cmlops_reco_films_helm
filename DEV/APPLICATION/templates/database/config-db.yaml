@@ -112,9 +112,9 @@ spec:
     image: {{ .Values.database.image.initdb| quote }}
     envFrom:
       - configMapRef:
-          name: postgresdb-config
+          name: {{ printf "%s-%s-config"  .Values.database.name .Values.ENV | quote }}
       - secretRef:
-          name: postgresdb-secret
+          name: {{ printf "%s-%s-secret"  .Values.database.name .Values.ENV | quote }}
     env:
       - name: POSTGRES_HOST
         value: {{ printf "%s-%s"  .Values.database.name .Values.ENV | quote }}
