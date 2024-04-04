@@ -62,7 +62,6 @@ api:
     type: LoadBalancer
     port: "8001"
     targetPort: "8001"
-    nodePort: "30021"
   ingress:
     path: "/"
 
