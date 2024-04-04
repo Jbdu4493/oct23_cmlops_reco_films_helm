@@ -130,7 +130,7 @@ apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
   name: autoriser-airflow-dev-vers-movieflix-dev
-  namespace: ns1
+  namespace: movieflix-dev
 spec:
   podSelector:
     matchLabels:
