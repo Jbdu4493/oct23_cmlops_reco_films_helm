@@ -109,7 +109,7 @@ database:
     initdb: recofilmsmlopsoct2023/movieflix-initdb:latest
   service:
     port: "5431"
-    targetport: "5432"
+    targetport: "30031"
     nodePort: "5431"
 
 
