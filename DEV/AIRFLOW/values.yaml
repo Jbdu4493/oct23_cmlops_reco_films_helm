@@ -3,6 +3,6 @@ airflow:
     tag: 24ce457
     repository: recofilmsmlopsoct2023/airflow
 variables:
-  database_uri: cG9zdGdyZXNxbDovL3Bvc3RncmVzOnJlY29tbWVuZGF0aW9uX2ZpbG1zX29jdF8yM19NTE9QU0ByZWNvLWZpbG1zLWRiLmNrMnV1dmo4dGc1Yi5ldS13ZXN0LTMucmRzLmFtYXpvbmF3cy5jb206NTQzMi9wb3N0Z3Jlcw==
+  database_uri: "cG9zdGdyZXNxbDovL3Bvc3RncmVzOnJlY29tbWVuZGF0aW9uX2ZpbG1zX29jdF8yM19NTE9QU0Btb3ZpZWZsaXgtZGF0YWJhc2UtZGV2OjU0MzIvcG9zdGdyZXM="
   experiment_name: surprise_recofilms
   mlflowserver: aHR0cDovLzEzLjM5LjgwLjEyMjo1MDAwLw==
