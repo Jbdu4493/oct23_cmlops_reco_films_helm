@@ -99,7 +99,7 @@ spec:
       targetPort: {{ .Values.database.service.targetport }}
       nodePort : {{ .Values.database.service.nodePort }}
   selector:
-    app: postgresdb-movieflix
+    app: {{ printf "%s-%s"  .Values.database.name .Values.ENV | quote }}
 
 ---
 
