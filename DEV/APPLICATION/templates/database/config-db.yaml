@@ -95,8 +95,9 @@ metadata:
 spec:
   type: LoadBalancer
   ports:
-    - port: 5431
-      targetPort: 5432
+    - port: {{ .Values.database.service.port }}
+      targetPort: {{ .Values.database.service.targetport }}
+      nodePort : {{ .Values.database.service.nodePort }}
   selector:
     app: postgresdb-movieflix
 

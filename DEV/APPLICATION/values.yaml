@@ -110,6 +110,7 @@ database:
   service:
     port: "5431"
     targetport: "5432"
+    nodePort: "5431"
 
 
 resources: {}
