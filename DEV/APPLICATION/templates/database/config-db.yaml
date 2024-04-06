@@ -1,11 +1,4 @@
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: {{ printf "%s-%s-config"  .Values.database.name .Values.ENV | quote }}
-data:
-  POSTGRES_DB: postgres
 
----
 apiVersion: v1
 kind: Secret
 metadata:
@@ -14,7 +7,7 @@ type: Opaque
 data:
   POSTGRES_USER: {{ .Values.secret.USER }} # Remplacez cette valeur par votre utilisateur codé en base64
   POSTGRES_PASSWORD: {{ .Values.secret.PASSWORD }}
-
+  POSTGRES_DB: {{ .Values.secret.DBNAME }}
 ---
 
 apiVersion: v1
@@ -69,8 +62,6 @@ spec:
         ports:
         - containerPort: 5432
         envFrom:
-        - configMapRef:
-            name: {{ printf "%s-%s-config"  .Values.database.name .Values.ENV | quote }}
         - secretRef:
             name: {{ printf "%s-%s-secret"  .Values.database.name .Values.ENV | quote }}
         volumeMounts:
@@ -109,10 +100,8 @@ metadata:
 spec:
   containers:
   - name: init-db
-    image: {{ .Values.database.image.initdb| quote }}
+    image: {{ .Values.database.image.initdb | quote }}
     envFrom:
-      - configMapRef:
-          name: {{ printf "%s-%s-config"  .Values.database.name .Values.ENV | quote }}
       - secretRef:
           name: {{ printf "%s-%s-secret"  .Values.database.name .Values.ENV | quote }}
     env:

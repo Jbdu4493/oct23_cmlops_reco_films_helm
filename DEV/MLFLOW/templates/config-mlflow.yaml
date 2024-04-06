@@ -1,0 +1,124 @@
+---
+# Source: mlflow/templates/serviceaccount.yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name:  {{ printf "%s-%s" .Values.image.name .Values.ENV  }}
+  labels:
+    app:  {{ printf "%s-%s" .Values.image.name .Values.ENV  }}
+---
+# Source: mlflow/templates/secret.yaml
+apiVersion: v1
+kind: Secret
+metadata:
+  name:  {{ printf "%s-%s" .Values.image.name .Values.ENV  }}
+  labels:
+    app: {{ printf "%s-%s" .Values.image.name .Values.ENV  }}
+type: Opaque
+data:
+---
+# Source: mlflow/templates/configmap.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name:  {{ printf "%s-%s" .Values.image.name .Values.ENV  }}
+  labels:
+    app:  {{ printf "%s-%s" .Values.image.name .Values.ENV  }}
+data:
+---
+# Source: mlflow/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name:  {{ printf "%s-%s" .Values.image.name .Values.ENV  }}
+  labels:
+    app:  {{ printf "%s-%s" .Values.image.name .Values.ENV  }}
+spec:
+  type: LoadBalancer
+  ports:
+    - port: 5001
+      targetPort: 5000
+      protocol: TCP
+      name: http
+  selector:
+    app:  {{ printf "%s-%s" .Values.image.name .Values.ENV  }}
+---
+{{- $dbname := .Values.secret.DBNAME | b64dec -}}
+{{- $user := .Values.secret.USER | b64dec -}}
+{{- $password := .Values.secret.PASSWORD | b64dec -}}
+# Source: mlflow/templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name:  {{ printf "%s-%s" .Values.image.name .Values.ENV  }}
+  labels:
+    app:  {{ printf "%s-%s" .Values.image.name .Values.ENV  }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app:  {{ printf "%s-%s" .Values.image.name .Values.ENV  }}
+  template:
+    metadata:
+      labels:
+        app: {{ printf "%s-%s" .Values.image.name .Values.ENV  }}
+    spec:
+      serviceAccountName:  {{ printf "%s-%s" .Values.image.name .Values.ENV  }}
+      securityContext:
+        {}
+      containers:
+        - name:  {{ .Values.image.name  }}
+          securityContext:
+            {}
+          image: {{ .Values.image.repository}}
+          imagePullPolicy: IfNotPresent
+          command: ["mlflow"]
+          args:
+            - server
+            - --host=0.0.0.0
+            - --port=5000
+            - --backend-store-uri={{ printf "postgresql://%s:%s@%s-%s:%s/%s" $user $password .Values.database.name .Values.ENV .Values.database.service.port  $dbname  }}
+            - --default-artifact-root=./mlruns
+          ports:
+            - name: http
+              containerPort: 5000
+              protocol: TCP
+          volumeMounts:
+          - mountPath: "/mlflow/mlruns"
+            name: mlflow-volume
+          livenessProbe:
+            httpGet:
+              path: /
+              port: http
+          readinessProbe:
+            httpGet:
+              path: /
+              port: http
+          resources:
+            {}
+          env:
+            - name: MLFLOW_VERSION
+              value: "2.1.1"
+            - name: PYTHONUNBUFFERED
+              value: "1"
+          envFrom:
+            - configMapRef:
+                name:  {{ printf "%s-%s" .Values.image.name .Values.ENV  }}
+            - secretRef:
+                name:  {{ printf "%s-%s" .Values.image.name .Values.ENV  }}
+      volumes:
+      - name: mlflow-volume
+        persistentVolumeClaim:
+          claimName: mlfow-pvc
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: mlfow-pvc
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: hostpath
+  resources:
+    requests:
+      storage: 10Gi

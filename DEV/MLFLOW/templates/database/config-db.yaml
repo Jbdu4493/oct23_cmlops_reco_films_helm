@@ -1,0 +1,64 @@
+
+apiVersion: v1
+kind: Secret
+metadata:
+  name: {{ printf "%s-%s-secret"  .Values.database.name .Values.ENV | quote }}
+type: Opaque
+data:
+  POSTGRES_USER: {{ .Values.secret.USER }} # Remplacez cette valeur par votre utilisateur codé en base64
+  POSTGRES_PASSWORD: {{ .Values.secret.PASSWORD }}
+  POSTGRES_DB : {{ .Values.secret.DBNAME }}
+---
+
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: {{ printf "%s-%s"  .Values.database.name .Values.ENV | quote }}
+spec:
+  selector:
+    matchLabels:
+      app: {{ printf "%s-%s"  .Values.database.name .Values.ENV | quote }}
+  serviceName: {{ printf "%s-%s"  .Values.database.name .Values.ENV | quote }}
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: {{ printf "%s-%s"  .Values.database.name .Values.ENV | quote }}
+    spec:
+      containers:
+      - name: postgres
+        securityContext:
+            {}
+        image: {{ .Values.database.image.database | quote }}
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 5432
+        envFrom:
+        - secretRef:
+            name: {{ printf "%s-%s-secret"  .Values.database.name .Values.ENV | quote }}
+        volumeMounts:
+        - name: {{ printf "%s-%s-posgres-storage"  .Values.database.name .Values.ENV }}
+          mountPath: /var/lib/postgresql/data
+  volumeClaimTemplates:
+  - metadata:
+      name: {{ printf "%s-%s-posgres-storage"  .Values.database.name .Values.ENV }}
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      storageClassName: hostpath
+      resources:
+        requests:
+          storage: 7Gi
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ printf "%s-%s"  .Values.database.name .Values.ENV | quote }} 
+spec:
+  type: LoadBalancer
+  ports:
+    - port: {{ .Values.database.service.port }}
+      targetPort: {{ .Values.database.service.targetport }}
+  selector:
+    app: {{ printf "%s-%s"  .Values.database.name .Values.ENV | quote }}
