@@ -36,16 +36,13 @@ metadata:
 spec:
   type: LoadBalancer
   ports:
-    - port: 5001
-      targetPort: 5000
+    - port: {{ .Values.sevice.port }}
+      targetPort: {{ .Values.sevice.targetport }}
       protocol: TCP
       name: http
   selector:
     app:  {{ printf "%s-%s" .Values.image.name .Values.ENV  }}
 ---
-{{- $dbname := .Values.secret.DBNAME | b64dec -}}
-{{- $user := .Values.secret.USER | b64dec -}}
-{{- $password := .Values.secret.PASSWORD | b64dec -}}
 # Source: mlflow/templates/deployment.yaml
 apiVersion: apps/v1
 kind: Deployment
@@ -66,6 +63,13 @@ spec:
       serviceAccountName:  {{ printf "%s-%s" .Values.image.name .Values.ENV  }}
       securityContext:
         {}
+      initContainers:
+      - name: create-dir
+        image: busybox
+        command: ['touch',  '/mlflow/sqlite/mlflow.db']
+        volumeMounts:
+        - name: mlflow-volume-sqlite
+          mountPath: "/mlflow/sqlite"
       containers:
         - name:  {{ .Values.image.name  }}
           securityContext:
@@ -77,7 +81,7 @@ spec:
             - server
             - --host=0.0.0.0
             - --port=5000
-            - --backend-store-uri={{ printf "postgresql://%s:%s@%s-%s:%s/%s" $user $password .Values.database.name .Values.ENV .Values.database.service.port  $dbname  }}
+            - --backend-store-uri=sqlite:////mlflow/sqlite/mlflow.db
             - --default-artifact-root=./mlruns
           ports:
             - name: http
@@ -86,16 +90,8 @@ spec:
           volumeMounts:
           - mountPath: "/mlflow/mlruns"
             name: mlflow-volume
-          livenessProbe:
-            httpGet:
-              path: /
-              port: http
-          readinessProbe:
-            httpGet:
-              path: /
-              port: http
-          resources:
-            {}
+          - mountPath: "/mlflow/sqlite"
+            name: mlflow-volume-sqlite
           env:
             - name: MLFLOW_VERSION
               value: "2.1.1"
@@ -110,6 +106,9 @@ spec:
       - name: mlflow-volume
         persistentVolumeClaim:
           claimName: mlfow-pvc
+      - name : mlflow-volume-sqlite
+        persistentVolumeClaim:
+          claimName: mlfow-database-pvc
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -122,3 +121,16 @@ spec:
   resources:
     requests:
       storage: 10Gi
+---
+
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: mlfow-database-pvc
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: hostpath
+  resources:
+    requests:
+      storage: 1Gi

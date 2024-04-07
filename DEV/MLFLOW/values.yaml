@@ -1,23 +1,9 @@
 ENV: dev
 
-secret:
-  USER: "bWxmbG93"
-  DBNAME: "bWxmbG93"
-  PASSWORD: "cmVjb21tZW5kYXRpb25fZmlsbXNfb2N0XzIzX01MT1BT"
-
 image:
-  repository:  "burakince/mlflow:2.1.1"
+  repository: burakince/mlflow:2.1.1
   name: mlflow-movieflix
 
 sevice:
   port: 5001
   targetport: 5000
-
-database:
-  name: mlflow-database
-  image:
-    database: postgres:latest
-  service:
-    port: "5430"
-    targetport: "5432"
-  uri: 
