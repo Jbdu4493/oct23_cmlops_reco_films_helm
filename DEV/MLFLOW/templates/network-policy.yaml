@@ -1,7 +1,7 @@
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
-  name: autoriser-movieflix-dev-vers-mlflow-dev
+  name: autoriser-airflow-dev-vers-mlflow-dev
   namespace:  mlflow-dev
 spec:
   podSelector:
