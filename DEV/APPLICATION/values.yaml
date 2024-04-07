@@ -56,7 +56,7 @@ securityContext: {}
 api:
   name: movieflix-api
   image:
-    repository: recofilmsmlopsoct2023/movieflix
+    repository: recofilmsmlopsoct2023/movieflix-api
     pullPolicy: Always
   service:
     type: LoadBalancer
