@@ -303,7 +303,7 @@ data:
     {
     "database_uri": {{ .Values.variables.database_uri | b64dec | quote  }} ,
     "experiment_name": "surprise_recofilms" ,
-    "mlflowserver":  {{ .Values.variables.mlflowserver | b64dec | quote }}
+    "mlflowserver":  http://mlflow-movieflix-dev:5001
     }
 
 ---
