@@ -1,14 +1,14 @@
-apiVersion: networking.k8s.io/v1
-kind: NetworkPolicy
-metadata:
-  name: autoriser-airflow-dev-vers-movieflix-dev
-  namespace: movieflix-dev
-spec:
-  podSelector: {}
-  ingress:
-  - from:
-    - namespaceSelector:
-        matchLabels:
-          name: airflow-{{ .Values.ENV }}
-    ports:
-    - port: 5431
+# apiVersion: networking.k8s.io/v1
+# kind: NetworkPolicy
+# metadata:
+#   name: autoriser-airflow-dev-vers-movieflix-dev
+#   namespace: movieflix-dev
+# spec:
+#   podSelector: {}
+#   ingress:
+#   - from:
+#     - namespaceSelector:
+#         matchLabels:
+#           name: airflow-{{ .Values.ENV }}
+#     ports:
+#     - port: 5431

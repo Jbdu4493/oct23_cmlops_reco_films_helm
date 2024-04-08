@@ -1,33 +1,33 @@
-apiVersion: networking.k8s.io/v1
-kind: NetworkPolicy
-metadata:
-  name: autoriser-airflow-{{ .Values.ENV }}-vers-movieflix-{{ .Values.ENV }}
-  namespace:  mlflow-dev
-spec:
-  spec:
-    podSelector: {}
-  ingress:
-  - from:
-    - namespaceSelector:
-        matchLabels:
-          name: movieflix-{{ .Values.ENV }}
-    ports:
-    - port: 5001
+# apiVersion: networking.k8s.io/v1
+# kind: NetworkPolicy
+# metadata:
+#   name: autoriser-airflow-{{ .Values.ENV }}-vers-movieflix-{{ .Values.ENV }}
+#   namespace:  mlflow-dev
+# spec:
+#   spec:
+#     podSelector: {}
+#   ingress:
+#   - from:
+#     - namespaceSelector:
+#         matchLabels:
+#           name: movieflix-{{ .Values.ENV }}
+#     ports:
+#     - port: 5001
 
----
+# ---
 
-apiVersion: networking.k8s.io/v1
-kind: NetworkPolicy
-metadata:
-  name: autoriser-movieflix-{{ .Values.ENV }}-vers-mlflow-{{ .Values.ENV }}
-  namespace: mlflow-{{ .Values.ENV }}
-spec:
-  spec:
-    podSelector: {}
-  ingress:
-  - from:
-    - namespaceSelector:
-        matchLabels:
-          name: airflow-{{ .Values.ENV }}
-    ports:
-    - port: 5001
+# apiVersion: networking.k8s.io/v1
+# kind: NetworkPolicy
+# metadata:
+#   name: autoriser-movieflix-{{ .Values.ENV }}-vers-mlflow-{{ .Values.ENV }}
+#   namespace: mlflow-{{ .Values.ENV }}
+# spec:
+#   spec:
+#     podSelector: {}
+#   ingress:
+#   - from:
+#     - namespaceSelector:
+#         matchLabels:
+#           name: airflow-{{ .Values.ENV }}
+#     ports:
+#     - port: 5001
