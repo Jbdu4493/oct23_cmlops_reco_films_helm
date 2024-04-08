@@ -14,7 +14,7 @@ spec:
         - values.yaml
   destination:
     server: 'https://kubernetes.default.svc'
-    namespace: movieflix-dev
+    namespace: app-movieflix-dev
   syncPolicy:
 
     automated: 
