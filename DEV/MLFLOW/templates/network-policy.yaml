@@ -1,7 +1,7 @@
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
-  name: autoriser-airflow-{{ .Value.ENV }}-vers-movieflix-{{ .Value.ENV }}
+  name: autoriser-airflow-{{ .Values.ENV }}-vers-movieflix-{{ .Values.ENV }}
   namespace:  mlflow-dev
 spec:
   spec:
@@ -10,7 +10,7 @@ spec:
   - from:
     - namespaceSelector:
         matchLabels:
-          name: movieflix-{{ .Value.ENV }}
+          name: movieflix-{{ .Values.ENV }}
     ports:
     - port: 5001
 
@@ -19,8 +19,8 @@ spec:
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
-  name: autoriser-movieflix-{{ .Value.ENV }}-vers-mlflow-{{ .Value.ENV }}
-  namespace: mlflow-{{ .Value.ENV }}
+  name: autoriser-movieflix-{{ .Values.ENV }}-vers-mlflow-{{ .Values.ENV }}
+  namespace: mlflow-{{ .Values.ENV }}
 spec:
   spec:
     podSelector: {}
@@ -28,6 +28,6 @@ spec:
   - from:
     - namespaceSelector:
         matchLabels:
-          name: airflow-{{ .Value.ENV }}
+          name: airflow-{{ .Values.ENV }}
     ports:
     - port: 5001
