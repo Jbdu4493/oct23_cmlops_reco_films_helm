@@ -63,7 +63,7 @@ spec:
             #   secretKeyRef:
             #     name:  mysecret
             #     key: MLFLOW_SERVER
-           value: "http://mlflow-dev:5001"
+            value: "http://mlflow-movieflix-dev:5001"
           - name: MLFLOW_MODELID
             value: {{ .Values.mlflow.MLFLOW_MODELID | quote }}
           - name: ENV
