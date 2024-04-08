@@ -4,13 +4,11 @@ metadata:
   name: autoriser-airflow-dev-vers-movieflix-dev
   namespace: movieflix-dev
 spec:
-  podSelector:
-    matchLabels:
-      app: {{ printf "%s-%s"  .Values.database.name .Values.ENV | quote }}
+  podSelector: {}
   ingress:
   - from:
     - namespaceSelector:
         matchLabels:
-          name: airflow-dev
+          name: airflow-{{ .Value.ENV }}
     ports:
     - port: 5431
