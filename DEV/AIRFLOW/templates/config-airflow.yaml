@@ -813,6 +813,8 @@ spec:
               drop:
                 - ALL
           volumeMounts:
+            - mountPath: "/temp/model"
+              name: temp-model-pv
             - name: config
               mountPath: "/opt/airflow/airflow.cfg"
               subPath: airflow.cfg
@@ -946,6 +948,8 @@ spec:
           resources:
             {}
           volumeMounts:
+            - mountPath: "/temp/model"
+              name: temp-model-pv
             - name: config
               mountPath: /opt/airflow/pod_templates/pod_template_file.yaml
               subPath: pod_template_file.yaml
@@ -988,6 +992,9 @@ spec:
         - name: logs
           emptyDir:
             {}
+        - name : temp-model-pv
+          persistentVolumeClaim:
+            claimName: temp-model-pvc
 ---
 # Source: airflow/templates/statsd/statsd-deployment.yaml
 ################################
@@ -1070,6 +1077,9 @@ spec:
         - name: config
           configMap:
             name: airflow-statsd
+        - name : temp-model-pv
+          persistentVolumeClaim:
+            claimName: temp-model-pvc
 ---
 # Source: airflow/templates/webserver/webserver-deployment.yaml
 ################################
@@ -1152,6 +1162,8 @@ spec:
               drop:
                 - ALL
           volumeMounts:
+            - mountPath: "/temp/model"
+              name: temp-model-pv
             - name: config
               mountPath: "/opt/airflow/airflow.cfg"
               subPath: airflow.cfg
@@ -1233,6 +1245,8 @@ spec:
               mountPath: "/opt/airflow/config/airflow_local_settings.py"
               subPath: airflow_local_settings.py
               readOnly: true
+            - mountPath: "/temp/model"
+              name: temp-model-pv
           ports:
             - name: airflow-ui
               containerPort: 8080
@@ -1303,6 +1317,9 @@ spec:
                   name: airflow-broker-url
                   key: connection          
       volumes:
+        - name : temp-model-pv
+          persistentVolumeClaim:
+            claimName: temp-model-pvc
         - name: config
           configMap:
             name: airflow-config
@@ -1615,6 +1632,8 @@ spec:
               drop:
                 - ALL
           volumeMounts:
+            - mountPath: "/temp/model"
+              name: temp-model-pv
             - name: config
               mountPath: "/opt/airflow/airflow.cfg"
               subPath: airflow.cfg
@@ -1775,6 +1794,9 @@ spec:
         - name: config
           configMap:
             name: airflow-config
+        - name : temp-model-pv
+          persistentVolumeClaim:
+            claimName: temp-model-pvc
   volumeClaimTemplates:
     - metadata:
         name: logs
@@ -1864,6 +1886,8 @@ spec:
               mountPath: "/opt/airflow/config/airflow_local_settings.py"
               subPath: airflow_local_settings.py
               readOnly: true
+            - mountPath: "/temp/model"
+              name: temp-model-pv
           args:          
             - airflow
             - db
@@ -1940,6 +1964,7 @@ spec:
             - name: worker-logs
               containerPort: 8793
           volumeMounts:
+            - mountPath: "/temp/model"
             - name: logs
               mountPath: "/opt/airflow/logs"
             - name: config
@@ -2012,12 +2037,17 @@ spec:
           resources:
             {}
           volumeMounts:
+            - mountPath: "/temp/model"
+              name: temp-model-pv
             - name: logs
               mountPath: "/opt/airflow/logs"
       volumes:
         - name: config
           configMap:
             name: airflow-config
+        - name : temp-model-pv
+          persistentVolumeClaim:
+            claimName: temp-model-pvc
   volumeClaimTemplates:
     - metadata:
         name: logs
@@ -2025,7 +2055,8 @@ spec:
         accessModes: ["ReadWriteOnce"]
         resources:
           requests:
-            storage: 100Gi
+            storage: 10Gi
+
 ---
 # Source: airflow/templates/cleanup/cleanup-cronjob.yaml
 ################################
@@ -2561,6 +2592,8 @@ spec:
           resources:
             {}
           volumeMounts:
+            - mountPath: "/temp/model"
+              name: temp-model-pv
             - name: config
               mountPath: "/opt/airflow/airflow.cfg"
               subPath: airflow.cfg
@@ -2573,6 +2606,9 @@ spec:
         - name: config
           configMap:
             name: airflow-config
+        - name : temp-model-pv
+          persistentVolumeClaim:
+            claimName: temp-model-pvc
 # Source: airflow/templates/jobs/create-varaiable-job.yaml
 ################################
 ## Airflow Run Migrations
@@ -2666,6 +2702,8 @@ spec:
           resources:
             {}
           volumeMounts:
+            - mountPath: "/temp/model"
+              name: temp-model-pv
             - name: config
               mountPath: "/opt/airflow/airflow.cfg"
               subPath: airflow.cfg
@@ -2682,6 +2720,9 @@ spec:
         - name: config
           configMap:
             name: airflow-config
+        - name : temp-model-pv
+          persistentVolumeClaim:
+            claimName: temp-model-pvc
 ---
 
 # Source: airflow/templates/jobs/create-user-job.yaml
@@ -2777,6 +2818,8 @@ spec:
           resources:
             {}
           volumeMounts:
+            - mountPath: "/temp/model"
+              name: temp-model-pv
             - name: config
               mountPath: "/opt/airflow/airflow.cfg"
               subPath: airflow.cfg
@@ -2789,7 +2832,9 @@ spec:
         - name: config
           configMap:
             name: airflow-config
----
+        - name : temp-model-pv
+          persistentVolumeClaim:
+            claimName: temp-model-pvc
 
 ---
 # Source: airflow/templates/jobs/create-user-job-serviceaccount.yaml
