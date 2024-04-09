@@ -1965,6 +1965,7 @@ spec:
               containerPort: 8793
           volumeMounts:
             - mountPath: "/temp/model"
+              name: temp-model-pv
             - name: logs
               mountPath: "/opt/airflow/logs"
             - name: config
