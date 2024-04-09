@@ -813,7 +813,7 @@ spec:
               drop:
                 - ALL
           volumeMounts:
-            - mountPath: "/temp/model"
+            - mountPath: "/opt/airflow/temp/model"
               name: temp-model-pv
             - name: config
               mountPath: "/opt/airflow/airflow.cfg"
@@ -948,7 +948,7 @@ spec:
           resources:
             {}
           volumeMounts:
-            - mountPath: "/temp/model"
+            - mountPath: "/opt/airflow/temp/model"
               name: temp-model-pv
             - name: config
               mountPath: /opt/airflow/pod_templates/pod_template_file.yaml
@@ -1162,7 +1162,7 @@ spec:
               drop:
                 - ALL
           volumeMounts:
-            - mountPath: "/temp/model"
+            - mountPath: "/opt/airflow/temp/model"
               name: temp-model-pv
             - name: config
               mountPath: "/opt/airflow/airflow.cfg"
@@ -1245,7 +1245,7 @@ spec:
               mountPath: "/opt/airflow/config/airflow_local_settings.py"
               subPath: airflow_local_settings.py
               readOnly: true
-            - mountPath: "/temp/model"
+            - mountPath: "/opt/airflow/temp/model"
               name: temp-model-pv
           ports:
             - name: airflow-ui
@@ -1632,7 +1632,7 @@ spec:
               drop:
                 - ALL
           volumeMounts:
-            - mountPath: "/temp/model"
+            - mountPath: "/opt/airflow/temp/model"
               name: temp-model-pv
             - name: config
               mountPath: "/opt/airflow/airflow.cfg"
@@ -1886,7 +1886,7 @@ spec:
               mountPath: "/opt/airflow/config/airflow_local_settings.py"
               subPath: airflow_local_settings.py
               readOnly: true
-            - mountPath: "/temp/model"
+            - mountPath: "/opt/airflow/temp/model"
               name: temp-model-pv
           args:          
             - airflow
@@ -1964,7 +1964,7 @@ spec:
             - name: worker-logs
               containerPort: 8793
           volumeMounts:
-            - mountPath: "/temp/model"
+            - mountPath: "/opt/airflow/temp/model"
               name: temp-model-pv
             - name: logs
               mountPath: "/opt/airflow/logs"
@@ -2038,7 +2038,7 @@ spec:
           resources:
             {}
           volumeMounts:
-            - mountPath: "/temp/model"
+            - mountPath: "/opt/airflow/temp/model"
               name: temp-model-pv
             - name: logs
               mountPath: "/opt/airflow/logs"
@@ -2468,7 +2468,7 @@ spec:
           resources:
             {}
           volumeMounts:
-            - mountPath: "/temp/model"
+            - mountPath: "/opt/airflow/temp/model"
               name: temp-model-pv
             - name: config
               mountPath: "/opt/airflow/airflow.cfg"
@@ -2593,7 +2593,7 @@ spec:
           resources:
             {}
           volumeMounts:
-            - mountPath: "/temp/model"
+            - mountPath: "/opt/airflow/temp/model"
               name: temp-model-pv
             - name: config
               mountPath: "/opt/airflow/airflow.cfg"
@@ -2703,7 +2703,7 @@ spec:
           resources:
             {}
           volumeMounts:
-            - mountPath: "/temp/model"
+            - mountPath: "/opt/airflow/temp/model"
               name: temp-model-pv
             - name: config
               mountPath: "/opt/airflow/airflow.cfg"
@@ -2819,7 +2819,7 @@ spec:
           resources:
             {}
           volumeMounts:
-            - mountPath: "/temp/model"
+            - mountPath: "/opt/airflow/temp/model"
               name: temp-model-pv
             - name: config
               mountPath: "/opt/airflow/airflow.cfg"
