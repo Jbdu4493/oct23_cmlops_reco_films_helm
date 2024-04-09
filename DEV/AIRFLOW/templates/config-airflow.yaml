@@ -2436,6 +2436,8 @@ spec:
           resources:
             {}
           volumeMounts:
+            - mountPath: "/temp/model"
+              name: temp-model-pv
             - name: config
               mountPath: "/opt/airflow/airflow.cfg"
               subPath: airflow.cfg
@@ -2448,6 +2450,22 @@ spec:
         - name: config
           configMap:
             name: airflow-config
+        - name : temp-model-pv
+          persistentVolumeClaim:
+            claimName: temp-model-pvc
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: temp-model-pvc
+spec:
+  accessModes:
+    - ReadWriteMany
+  storageClassName: hostpath
+  resources:
+    requests:
+      storage: 10Gi
+
 ---
 # Source: airflow/templates/jobs/migrate-database-job.yaml
 ################################
