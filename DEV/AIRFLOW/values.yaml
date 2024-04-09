@@ -1,6 +1,6 @@
 airflow:
   image:
-    tag: 694f8a2
+    tag: 5f36171
     repository: recofilmsmlopsoct2023/airflow
 variables:
   database_uri: cG9zdGdyZXNxbDovL3Bvc3RncmVzOnJlY29tbWVuZGF0aW9uX2ZpbG1zX29jdF8yM19NTE9QU0Btb3ZpZWZsaXgtZGF0YWJhc2UtZGV2Lm1vdmllZmxpeC1kZXYuc3ZjLmNsdXN0ZXIubG9jYWw6NTQzMS9wb3N0Z3Jlcw==
