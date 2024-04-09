@@ -51,10 +51,7 @@ spec:
           - name: HOST
             value: movieflix-database-{{ .Values.ENV }}
           - name: PORT
-            valueFrom:
-              secretKeyRef:
-                name: mysecret
-                key: PORT
+            value: {{ .Values.database.service.port }}
           - name: MLFLOW_SERVER
             # valueFrom:
             #   secretKeyRef:
