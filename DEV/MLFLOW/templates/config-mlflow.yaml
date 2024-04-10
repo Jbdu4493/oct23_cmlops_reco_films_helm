@@ -70,7 +70,8 @@ spec:
         volumeMounts:
         - name: mlflow-volume-sqlite
           mountPath: "/mlflow/sqlite"
-       - name: create-dir2
+       
+      - name: create-dir2
         image: busybox
         command: ['mkdir','-p' , '/mlflow/mlruns']
         volumeMounts:
