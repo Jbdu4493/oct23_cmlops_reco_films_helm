@@ -70,6 +70,12 @@ spec:
         volumeMounts:
         - name: mlflow-volume-sqlite
           mountPath: "/mlflow/sqlite"
+       - name: create-dir2
+        image: busybox
+        command: ['mkdir','-p' , '/mlflow/mlruns']
+        volumeMounts:
+        - name: mlflow-volume
+          mountPath: "/mlflow/mlruns"
       containers:
         - name:  {{ .Values.image.name  }}
           securityContext:
