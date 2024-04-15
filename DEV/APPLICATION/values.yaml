@@ -8,7 +8,7 @@ replicaCount: 1
 
 image:
   # Overrides the image tag whose default is the chart appVersion.
-  tag: aa0f54e
+  tag: be7a084
 
 secret:
   USER: "cG9zdGdyZXM="
