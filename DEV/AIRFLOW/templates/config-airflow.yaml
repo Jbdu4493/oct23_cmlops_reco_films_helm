@@ -813,6 +813,8 @@ spec:
               drop:
                 - ALL
           volumeMounts:
+            - mountPath: "/mlflow/mlruns"
+              name: mlflow-volume
             - mountPath: "/opt/airflow/temp/model"
               name: temp-model-pv
             - name: config
@@ -948,6 +950,8 @@ spec:
           resources:
             {}
           volumeMounts:
+            - mountPath: "/mlflow/mlruns"
+              name: mlflow-volume
             - mountPath: "/opt/airflow/temp/model"
               name: temp-model-pv
             - name: config
@@ -983,9 +987,14 @@ spec:
             - name: AIRFLOW_HOME
               value: "/opt/airflow"
           volumeMounts:
+            - mountPath: "/mlflow/mlruns"
+              name: mlflow-volume
             - name: logs
               mountPath: "/opt/airflow/logs"
       volumes:
+        - name: mlflow-volume
+        persistentVolumeClaim:
+          claimName: mlflow-pvc
         - name: config
           configMap:
             name: airflow-config
@@ -1074,6 +1083,9 @@ spec:
               mountPath: /etc/statsd-exporter/mappings.yml
               subPath: mappings.yml
       volumes:
+        - name: mlflow-volume
+          persistentVolumeClaim:
+            claimName: mlflow-pvc
         - name: config
           configMap:
             name: airflow-statsd
@@ -1162,6 +1174,8 @@ spec:
               drop:
                 - ALL
           volumeMounts:
+            - mountPath: "/mlflow/mlruns"
+              name: mlflow-volume
             - mountPath: "/opt/airflow/temp/model"
               name: temp-model-pv
             - name: config
@@ -1233,6 +1247,8 @@ spec:
           resources:
             {}
           volumeMounts:
+            - mountPath: "/mlflow/mlruns"
+              name: mlflow-volume
             - name: config
               mountPath: /opt/airflow/pod_templates/pod_template_file.yaml
               subPath: pod_template_file.yaml
@@ -1317,6 +1333,9 @@ spec:
                   name: airflow-broker-url
                   key: connection          
       volumes:
+        - name: mlflow-volume
+          persistentVolumeClaim:
+            claimName: mlflow-pvc
         - name : temp-model-pv
           persistentVolumeClaim:
             claimName: temp-model-pvc
@@ -1632,6 +1651,8 @@ spec:
               drop:
                 - ALL
           volumeMounts:
+            - mountPath: "/mlflow/mlruns"
+              name: mlflow-volume
             - mountPath: "/opt/airflow/temp/model"
               name: temp-model-pv
             - name: config
@@ -1703,6 +1724,8 @@ spec:
           resources:
             {}
           volumeMounts:
+            - mountPath: "/mlflow/mlruns"
+              name: mlflow-volume
             - name: logs
               mountPath: "/opt/airflow/logs"
             - name: config
@@ -1788,9 +1811,14 @@ spec:
             - name: AIRFLOW_HOME
               value: "/opt/airflow"
           volumeMounts:
+            - mountPath: "/mlflow/mlruns"
+              name: mlflow-volume
             - name: logs
               mountPath: "/opt/airflow/logs"
       volumes:
+        - name: mlflow-volume
+          persistentVolumeClaim:
+            claimName: mlflow-pvc
         - name: config
           configMap:
             name: airflow-config
@@ -1878,6 +1906,8 @@ spec:
               drop:
                 - ALL
           volumeMounts:
+            - mountPath: "/mlflow/mlruns"
+              name: mlflow-volume
             - name: config
               mountPath: "/opt/airflow/airflow.cfg"
               subPath: airflow.cfg
@@ -1964,6 +1994,8 @@ spec:
             - name: worker-logs
               containerPort: 8793
           volumeMounts:
+            - mountPath: "/mlflow/mlruns"
+              name: mlflow-volume
             - mountPath: "/opt/airflow/temp/model"
               name: temp-model-pv
             - name: logs
@@ -2038,11 +2070,16 @@ spec:
           resources:
             {}
           volumeMounts:
+            - mountPath: "/mlflow/mlruns"
+              name: mlflow-volume
             - mountPath: "/opt/airflow/temp/model"
               name: temp-model-pv
             - name: logs
               mountPath: "/opt/airflow/logs"
       volumes:
+        - name: mlflow-volume
+          persistentVolumeClaim:
+            claimName: mlflow-pvc
         - name: config
           configMap:
             name: airflow-config
@@ -2468,6 +2505,8 @@ spec:
           resources:
             {}
           volumeMounts:
+            - mountPath: "/mlflow/mlruns"
+              name: mlflow-volume
             - mountPath: "/opt/airflow/temp/model"
               name: temp-model-pv
             - name: config
@@ -2479,6 +2518,9 @@ spec:
               subPath: airflow_local_settings.py
               readOnly: true
       volumes:
+        - name: mlflow-volume
+          persistentVolumeClaim:
+            claimName: mlflow-pvc
         - name: config
           configMap:
             name: airflow-config
@@ -2593,6 +2635,8 @@ spec:
           resources:
             {}
           volumeMounts:
+            - mountPath: "/mlflow/mlruns"
+              name: mlflow-volume
             - mountPath: "/opt/airflow/temp/model"
               name: temp-model-pv
             - name: config
@@ -2604,6 +2648,9 @@ spec:
               subPath: airflow_local_settings.py
               readOnly: true
       volumes:
+        - name: mlflow-volume
+          persistentVolumeClaim:
+            claimName: mlflow-pvc
         - name: config
           configMap:
             name: airflow-config
@@ -2703,6 +2750,8 @@ spec:
           resources:
             {}
           volumeMounts:
+            - mountPath: "/mlflow/mlruns"
+              name: mlflow-volume
             - mountPath: "/opt/airflow/temp/model"
               name: temp-model-pv
             - name: config
@@ -2718,6 +2767,9 @@ spec:
               subPath: variables.json
               readOnly: true
       volumes:
+        - name: mlflow-volume
+          persistentVolumeClaim:
+            claimName: mlflow-pvc
         - name: config
           configMap:
             name: airflow-config
@@ -2819,6 +2871,8 @@ spec:
           resources:
             {}
           volumeMounts:
+            - mountPath: "/mlflow/mlruns"
+              name: mlflow-volume
             - mountPath: "/opt/airflow/temp/model"
               name: temp-model-pv
             - name: config
@@ -2830,6 +2884,9 @@ spec:
               subPath: airflow_local_settings.py
               readOnly: true
       volumes:
+        - name: mlflow-volume
+          persistentVolumeClaim:
+            claimName: mlflow-pvc
         - name: config
           configMap:
             name: airflow-config
