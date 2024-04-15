@@ -993,8 +993,8 @@ spec:
               mountPath: "/opt/airflow/logs"
       volumes:
         - name: mlflow-volume
-        persistentVolumeClaim:
-          claimName: mlflow-pvc
+          persistentVolumeClaim:
+            claimName: mlflow-pvc
         - name: config
           configMap:
             name: airflow-config
