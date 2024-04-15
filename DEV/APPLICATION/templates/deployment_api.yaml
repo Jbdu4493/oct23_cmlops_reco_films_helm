@@ -82,3 +82,7 @@ spec:
         volumeMounts:
           - mountPath: "/mlflow/mlruns"
             name: mlflow-volume
+      volumes:
+        - name: mlflow-volume
+          persistentVolumeClaim:
+            claimName: mlflow-pvc
