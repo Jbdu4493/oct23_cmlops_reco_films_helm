@@ -17,6 +17,9 @@ spec:
       containers:
       - name: {{ .Values.api.name }}
         image: {{ .Values.api.image.repository }}:{{ .Values.image.tag }}
+        volumeMounts:
+        - mountPath: "/mlflow/mlruns"
+          name: mlflow-volume
         env:
           - name: SECRET_KEY
             valueFrom:
@@ -66,7 +69,7 @@ spec:
             value: {{ .Values.image.tag }}
         imagePullPolicy: {{ .Values.api.image.pullPolicy }}
         ports:
-        - containerPort: {{ .Values.api.service.targetPort }}
+          - containerPort: {{ .Values.api.service.targetPort }}
         resources:
           limits:
             cpu: 250m
@@ -76,3 +79,10 @@ spec:
             cpu: 250m
             ephemeral-storage: 500Mi
             memory: 1Gi
+        volumeMounts:
+          - mountPath: "/mlflow/mlruns"
+            name: mlflow-volume
+      volumes:
+        - name: mlflow-volume
+          persistentVolumeClaim:
+            claimName: mlflow-pvc

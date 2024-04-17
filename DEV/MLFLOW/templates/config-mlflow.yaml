@@ -64,56 +64,62 @@ spec:
       securityContext:
         {}
       initContainers:
-      - name: create-dir
+      - name: init-db
         image: busybox
-        command: ['touch',  '/mlflow/sqlite/mlflow.db']
+        command: ['sh', '-c', 'mkdir -p /mlflow/sqlite && touch /mlflow/sqlite/mlflow.db']
         volumeMounts:
         - name: mlflow-volume-sqlite
           mountPath: "/mlflow/sqlite"
+      - name: init-mlruns
+        image: busybox
+        command: ['mkdir', '-p', '/mlflow/mlruns']
+        volumeMounts:
+        - name: mlflow-volume
+          mountPath: "/mlflow/mlruns"
       containers:
-        - name:  {{ .Values.image.name  }}
-          securityContext:
-            {}
-          image: {{ .Values.image.repository}}
-          imagePullPolicy: IfNotPresent
-          command: ["mlflow"]
-          args:
-            - server
-            - --host=0.0.0.0
-            - --port=5000
-            - --backend-store-uri=sqlite:////mlflow/sqlite/mlflow.db
-            - --default-artifact-root=./mlruns
-          ports:
-            - name: http
-              containerPort: 5000
-              protocol: TCP
-          volumeMounts:
-          - mountPath: "/mlflow/mlruns"
-            name: mlflow-volume
-          - mountPath: "/mlflow/sqlite"
-            name: mlflow-volume-sqlite
-          env:
-            - name: MLFLOW_VERSION
-              value: "2.1.1"
-            - name: PYTHONUNBUFFERED
-              value: "1"
-          envFrom:
-            - configMapRef:
-                name:  {{ printf "%s-%s" .Values.image.name .Values.ENV  }}
-            - secretRef:
-                name:  {{ printf "%s-%s" .Values.image.name .Values.ENV  }}
+      - name:  {{ .Values.image.name  }}
+        securityContext:
+          {}
+        image: {{ .Values.image.repository}}
+        imagePullPolicy: IfNotPresent
+        command: ["mlflow"]
+        args:
+          - server
+          - --host=0.0.0.0
+          - --port=5000
+          - --backend-store-uri=sqlite:////mlflow/sqlite/mlflow.db
+          - --default-artifact-root=/mlflow/mlruns
+        ports:
+        - name: http
+          containerPort: 5000
+          protocol: TCP
+        volumeMounts:
+        - mountPath: "/mlflow/mlruns"
+          name: mlflow-volume
+        - mountPath: "/mlflow/sqlite"
+          name: mlflow-volume-sqlite
+        env:
+        - name: MLFLOW_VERSION
+          value: "2.1.1"
+        - name: PYTHONUNBUFFERED
+          value: "1"
+        envFrom:
+        - configMapRef:
+            name:  {{ printf "%s-%s" .Values.image.name .Values.ENV  }}
+        - secretRef:
+            name:  {{ printf "%s-%s" .Values.image.name .Values.ENV  }}
       volumes:
       - name: mlflow-volume
         persistentVolumeClaim:
-          claimName: mlfow-pvc
-      - name : mlflow-volume-sqlite
+          claimName: mlflow-pvc
+      - name: mlflow-volume-sqlite
         persistentVolumeClaim:
-          claimName: mlfow-database-pvc
+          claimName: mlflow-database-pvc
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: mlfow-pvc
+  name: mlflow-pvc
 spec:
   accessModes:
     - ReadWriteOnce
@@ -126,7 +132,7 @@ spec:
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: mlfow-database-pvc
+  name: mlflow-database-pvc
 spec:
   accessModes:
     - ReadWriteOnce
