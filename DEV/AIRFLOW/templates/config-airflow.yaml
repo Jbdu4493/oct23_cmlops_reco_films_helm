@@ -805,7 +805,8 @@ spec:
         - name: wait-for-airflow-migrations
           resources:
             {}
-          image: {{ .Values.airflow.image.repository }}:{{ .Values.airflow.image.tag }}
+          image: {{ printf "%s:%s" .Values.airflow.image.repository .Values.airflow.image.tag | quote }}
+                
           imagePullPolicy: IfNotPresent
           securityContext: 
             allowPrivilegeEscalation: false
@@ -873,7 +874,7 @@ spec:
       containers:
         # Always run the main scheduler container.
         - name: scheduler
-          image: {{ .Values.airflow.image.repository }}:{{ .Values.airflow.image.tag }}
+          image: {{ printf "%s:%s" .Values.airflow.image.repository .Values.airflow.image.tag | quote }}
           imagePullPolicy: IfNotPresent
           securityContext: 
             allowPrivilegeEscalation: false
@@ -971,7 +972,7 @@ spec:
         - name: scheduler-log-groomer
           resources:
             {}
-          image: {{ .Values.airflow.image.repository }}:{{ .Values.airflow.image.tag }}
+          image: {{ printf "%s:%s" .Values.airflow.image.repository .Values.airflow.image.tag | quote }}
           imagePullPolicy: IfNotPresent
           securityContext: 
             allowPrivilegeEscalation: false
@@ -1166,7 +1167,7 @@ spec:
         - name: wait-for-airflow-migrations
           resources:
             {}
-          image: {{ .Values.airflow.image.repository }}:{{ .Values.airflow.image.tag }}
+          image: {{ printf "%s:%s" .Values.airflow.image.repository .Values.airflow.image.tag | quote }}
           imagePullPolicy: IfNotPresent
           securityContext: 
             allowPrivilegeEscalation: false
@@ -1233,7 +1234,7 @@ spec:
                   key: connection
       containers:
         - name: webserver
-          image: {{ .Values.airflow.image.repository }}:{{ .Values.airflow.image.tag }}
+          image: {{ printf "%s:%s" .Values.airflow.image.repository .Values.airflow.image.tag | quote }}
           imagePullPolicy: IfNotPresent
           securityContext: 
             allowPrivilegeEscalation: false
@@ -1643,7 +1644,7 @@ spec:
         - name: wait-for-airflow-migrations
           resources:
             {}
-          image: {{ .Values.airflow.image.repository }}:{{ .Values.airflow.image.tag }}
+          image: {{ printf "%s:%s" .Values.airflow.image.repository .Values.airflow.image.tag | quote }}
           imagePullPolicy: IfNotPresent
           securityContext: 
             allowPrivilegeEscalation: false
@@ -1710,7 +1711,7 @@ spec:
                   key: connection
       containers:
         - name: triggerer
-          image: {{ .Values.airflow.image.repository }}:{{ .Values.airflow.image.tag }}
+          image: {{ printf "%s:%s" .Values.airflow.image.repository .Values.airflow.image.tag | quote }}
           imagePullPolicy: IfNotPresent
           securityContext: 
             allowPrivilegeEscalation: false
@@ -1795,7 +1796,7 @@ spec:
         - name: triggerer-log-groomer
           resources:
             {}
-          image: {{ .Values.airflow.image.repository }}:{{ .Values.airflow.image.tag }}
+          image: {{ printf "%s:%s" .Values.airflow.image.repository .Values.airflow.image.tag | quote }}
           imagePullPolicy: IfNotPresent
           securityContext: 
             allowPrivilegeEscalation: false
@@ -1898,7 +1899,7 @@ spec:
         - name: wait-for-airflow-migrations
           resources:
             {}
-          image: {{ .Values.airflow.image.repository }}:{{ .Values.airflow.image.tag }}
+          image: {{ printf "%s:%s" .Values.airflow.image.repository .Values.airflow.image.tag | quote }}
           imagePullPolicy: IfNotPresent
           securityContext: 
             allowPrivilegeEscalation: false
@@ -1965,7 +1966,7 @@ spec:
                   key: connection
       containers:
         - name: worker
-          image: {{ .Values.airflow.image.repository }}:{{ .Values.airflow.image.tag }}
+          image: {{ printf "%s:%s" .Values.airflow.image.repository .Values.airflow.image.tag | quote }}
           imagePullPolicy: IfNotPresent
           securityContext: 
             allowPrivilegeEscalation: false
@@ -2052,7 +2053,7 @@ spec:
                   name: airflow-broker-url
                   key: connection          
         - name: worker-log-groomer
-          image: {{ .Values.airflow.image.repository }}:{{ .Values.airflow.image.tag }}
+          image: {{ printf "%s:%s" .Values.airflow.image.repository .Values.airflow.image.tag | quote }}
           imagePullPolicy: IfNotPresent
           securityContext: 
             allowPrivilegeEscalation: false
@@ -2436,7 +2437,7 @@ spec:
       serviceAccountName: airflow-create-user-job
       containers:
         - name: create-user
-          image: {{ .Values.airflow.image.repository }}:{{ .Values.airflow.image.tag }}
+          image: {{ printf "%s:%s" .Values.airflow.image.repository .Values.airflow.image.tag | quote }}
           imagePullPolicy: IfNotPresent
           securityContext: 
             allowPrivilegeEscalation: false
@@ -2577,7 +2578,7 @@ spec:
       serviceAccountName: airflow-migrate-database-job
       containers:
         - name: run-airflow-migrations
-          image: {{ .Values.airflow.image.repository }}:{{ .Values.airflow.image.tag }}
+          image: {{ printf "%s:%s" .Values.airflow.image.repository .Values.airflow.image.tag | quote }}
           imagePullPolicy: IfNotPresent
           securityContext: 
             allowPrivilegeEscalation: false
@@ -2692,7 +2693,7 @@ spec:
         []
       containers:
         - name: run-airflow-variables
-          image: {{ .Values.airflow.image.repository }}:{{ .Values.airflow.image.tag }}
+          image: {{ printf "%s:%s" .Values.airflow.image.repository .Values.airflow.image.tag | quote }}
           imagePullPolicy: IfNotPresent
           securityContext: 
             allowPrivilegeEscalation: false
@@ -2815,7 +2816,7 @@ spec:
       serviceAccountName: airflow-dbinit-job
       containers:
         - name: init-db
-          image: {{ .Values.airflow.image.repository }}:{{ .Values.airflow.image.tag }}
+          image: {{ printf "%s:%s" .Values.airflow.image.repository .Values.airflow.image.tag | quote }}
           imagePullPolicy: IfNotPresent
           securityContext: 
             allowPrivilegeEscalation: false
