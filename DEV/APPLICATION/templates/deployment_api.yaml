@@ -56,7 +56,7 @@ spec:
           - name: PORT
             value: {{ .Values.database.service.port | quote }}
           - name: MLFLOW_SERVER
-            value: "http://mlflow-movieflix-{{ .Values.ENV }}:5001"
+            value: "http://mlflow-movieflix-{{ .Values.ENV }}:{{ .Values.mlflow.port }}"
           - name: MLFLOW_MODELID
             value: {{ .Values.mlflow.MLFLOW_MODELID | quote }}
           - name: ENV
