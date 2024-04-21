@@ -1,7 +1,7 @@
 airflow:
   image:
 
-    tag: "828f0c8"
+    tag: "08f9ed7"
     repository: recofilmsmlopsoct2023/airflow
 variables:
   database_uri: cG9zdGdyZXNxbDovL3Bvc3RncmVzOnJlY29tbWVuZGF0aW9uX2ZpbG1zX29jdF8yM19NTE9QU0Btb3ZpZWZsaXgtZGF0YWJhc2UtZGV2OjU0MzEvcG9zdGdyZXM=
