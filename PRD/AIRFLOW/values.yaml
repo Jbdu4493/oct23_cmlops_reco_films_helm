@@ -1,6 +1,6 @@
 airflow:
   image:
-    tag: 24ce457
+    tag: "dd2101e"
     repository: recofilmsmlopsoct2023/airflow
 variables:
   database_uri: cG9zdGdyZXNxbDovL3Bvc3RncmVzOnJlY29tbWVuZGF0aW9uX2ZpbG1zX29jdF8yM19NTE9QU0ByZWNvLWZpbG1zLWRiLmNrMnV1dmo4dGc1Yi5ldS13ZXN0LTMucmRzLmFtYXpvbmF3cy5jb206NTQzMi9wb3N0Z3Jlcw==
