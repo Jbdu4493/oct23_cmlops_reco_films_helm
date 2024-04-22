@@ -148,7 +148,7 @@ apiVersion: v1
 kind: Secret
 metadata:
   name: airflow-postgresql
-  namespace: "default"
+#  namespace: "default"
   labels:
     app.kubernetes.io/instance: airflow
     app.kubernetes.io/managed-by: Helm
@@ -543,7 +543,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: airflow-postgresql-hl
-  namespace: "default"
+#  namespace: "default"
   labels:
     app.kubernetes.io/instance: airflow
     app.kubernetes.io/managed-by: Helm
@@ -578,7 +578,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: airflow-postgresql
-  namespace: "default"
+#  namespace: "default"
   labels:
     app.kubernetes.io/instance: airflow
     app.kubernetes.io/managed-by: Helm
@@ -1349,7 +1349,7 @@ apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   name: airflow-postgresql
-  namespace: "default"
+#  namespace: "default"
   labels:
     app.kubernetes.io/instance: airflow
     app.kubernetes.io/managed-by: Helm
