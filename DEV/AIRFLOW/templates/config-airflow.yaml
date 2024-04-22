@@ -1,154 +1,154 @@
-# ---
-# # Source: airflow/templates/jobs/create-user-job-serviceaccount.yaml
-# ###########################################
-# ## Airflow Create User Job ServiceAccount
-# ###########################################
-# apiVersion: v1
-# kind: ServiceAccount
-# automountServiceAccountToken: true
-# metadata:
-#   name: airflow-create-user-job
-#   labels:
-#     tier: airflow
-#     component: create-user-job
-#     release: airflow
-#     chart: "airflow-1.13.0"
-#     heritage: Helm
-# ---
-# # Source: airflow/templates/jobs/migrate-database-job-serviceaccount.yaml
-# #############################################
-# ## Airflow Migrate Database Job ServiceAccount
-# ##############################################
-# apiVersion: v1
-# kind: ServiceAccount
-# automountServiceAccountToken: true
-# metadata:
-#   name: airflow-migrate-database-job
-#   labels:
-#     tier: airflow
-#     component: run-airflow-migrations
-#     release: airflow
-#     chart: "airflow-1.13.0"
-#     heritage: Helm
-# ---
-# ---
-# # Source: airflow/templates/jobs/migrate-database-job-serviceaccount.yaml
-# #############################################
-# ## Airflow Migrate Database Job ServiceAccount
-# ##############################################
-# apiVersion: v1
-# kind: ServiceAccount
-# automountServiceAccountToken: true
-# metadata:
-#   name: airflow-variables-job
-#   labels:
-#     tier: airflow
-#     component: run-airflow-migrations
-#     release: airflow
-#     chart: "airflow-1.13.0"
-#     heritage: Helm
-# # Source: airflow/templates/redis/redis-serviceaccount.yaml
-# ######################################
-# ## Airflow Redis ServiceAccount
-# ######################################
-# apiVersion: v1
-# kind: ServiceAccount
-# automountServiceAccountToken: true
-# metadata:
-#   name: airflow-redis
-#   labels:
-#     tier: airflow
-#     component: redis
-#     release: airflow
-#     chart: "airflow-1.13.0"
-#     heritage: Helm
-# ---
-# # Source: airflow/templates/scheduler/scheduler-serviceaccount.yaml
-# ################################
-# ## Airflow Scheduler ServiceAccount
-# #################################
-# apiVersion: v1
-# kind: ServiceAccount
-# automountServiceAccountToken: true
-# metadata:
-#   name: airflow-scheduler
-#   labels:
-#     tier: airflow
-#     component: scheduler
-#     release: airflow
-#     chart: "airflow-1.13.0"
-#     heritage: Helm
-# ---
-# # Source: airflow/templates/statsd/statsd-serviceaccount.yaml
-# ######################################
-# ## Airflow StatsD ServiceAccount
-# ######################################
-# apiVersion: v1
-# kind: ServiceAccount
-# automountServiceAccountToken: true
-# metadata:
-#   name: airflow-statsd
-#   labels:
-#     tier: airflow
-#     component: statsd
-#     release: airflow
-#     chart: "airflow-1.13.0"
-#     heritage: Helm
-# ---
-# # Source: airflow/templates/triggerer/triggerer-serviceaccount.yaml
-# ################################
-# ## Airflow Triggerer ServiceAccount
-# #################################
-# apiVersion: v1
-# kind: ServiceAccount
-# automountServiceAccountToken: true
-# metadata:
-#   name: airflow-triggerer
-#   labels:
-#     tier: airflow
-#     component: triggerer
-#     release: airflow
-#     chart: "airflow-1.13.0"
-#     heritage: Helm
-# ---
-# # Source: airflow/templates/webserver/webserver-serviceaccount.yaml
-# ######################################
-# ## Airflow Webserver ServiceAccount
-# ######################################
-# apiVersion: v1
-# kind: ServiceAccount
-# automountServiceAccountToken: true
-# metadata:
-#   name: airflow-webserver
-#   labels:
-#     tier: airflow
-#     component: webserver
-#     release: airflow
-#     chart: "airflow-1.13.0"
-#     heritage: Helm
-# ---
-# # Source: airflow/templates/workers/worker-serviceaccount.yaml
-# ################################
-# ## Airflow Worker ServiceAccount
-# #################################
-# apiVersion: v1
-# kind: ServiceAccount
-# automountServiceAccountToken: true
-# metadata:
-#   name: airflow-worker
-#   labels:
-#     tier: airflow
-#     component: worker
-#     release: airflow
-#     chart: "airflow-1.13.0"
-#     heritage: Helm
+---
+# Source: airflow/templates/jobs/create-user-job-serviceaccount.yaml
+###########################################
+## Airflow Create User Job ServiceAccount
+###########################################
+apiVersion: v1
+kind: ServiceAccount
+automountServiceAccountToken: true
+metadata:
+  name: airflow-create-user-job
+  labels:
+    tier: airflow
+    component: create-user-job
+    release: airflow
+    chart: "airflow-1.13.0"
+    heritage: Helm
+---
+# Source: airflow/templates/jobs/migrate-database-job-serviceaccount.yaml
+#############################################
+## Airflow Migrate Database Job ServiceAccount
+##############################################
+apiVersion: v1
+kind: ServiceAccount
+automountServiceAccountToken: true
+metadata:
+  name: airflow-migrate-database-job
+  labels:
+    tier: airflow
+    component: run-airflow-migrations
+    release: airflow
+    chart: "airflow-1.13.0"
+    heritage: Helm
+---
+---
+# Source: airflow/templates/jobs/migrate-database-job-serviceaccount.yaml
+#############################################
+## Airflow Migrate Database Job ServiceAccount
+##############################################
+apiVersion: v1
+kind: ServiceAccount
+automountServiceAccountToken: true
+metadata:
+  name: airflow-variables-job
+  labels:
+    tier: airflow
+    component: run-airflow-migrations
+    release: airflow
+    chart: "airflow-1.13.0"
+    heritage: Helm
+# Source: airflow/templates/redis/redis-serviceaccount.yaml
+######################################
+## Airflow Redis ServiceAccount
+######################################
+apiVersion: v1
+kind: ServiceAccount
+automountServiceAccountToken: true
+metadata:
+  name: airflow-redis
+  labels:
+    tier: airflow
+    component: redis
+    release: airflow
+    chart: "airflow-1.13.0"
+    heritage: Helm
+---
+# Source: airflow/templates/scheduler/scheduler-serviceaccount.yaml
+################################
+## Airflow Scheduler ServiceAccount
+#################################
+apiVersion: v1
+kind: ServiceAccount
+automountServiceAccountToken: true
+metadata:
+  name: airflow-scheduler
+  labels:
+    tier: airflow
+    component: scheduler
+    release: airflow
+    chart: "airflow-1.13.0"
+    heritage: Helm
+---
+# Source: airflow/templates/statsd/statsd-serviceaccount.yaml
+######################################
+## Airflow StatsD ServiceAccount
+######################################
+apiVersion: v1
+kind: ServiceAccount
+automountServiceAccountToken: true
+metadata:
+  name: airflow-statsd
+  labels:
+    tier: airflow
+    component: statsd
+    release: airflow
+    chart: "airflow-1.13.0"
+    heritage: Helm
+---
+# Source: airflow/templates/triggerer/triggerer-serviceaccount.yaml
+################################
+## Airflow Triggerer ServiceAccount
+#################################
+apiVersion: v1
+kind: ServiceAccount
+automountServiceAccountToken: true
+metadata:
+  name: airflow-triggerer
+  labels:
+    tier: airflow
+    component: triggerer
+    release: airflow
+    chart: "airflow-1.13.0"
+    heritage: Helm
+---
+# Source: airflow/templates/webserver/webserver-serviceaccount.yaml
+######################################
+## Airflow Webserver ServiceAccount
+######################################
+apiVersion: v1
+kind: ServiceAccount
+automountServiceAccountToken: true
+metadata:
+  name: airflow-webserver
+  labels:
+    tier: airflow
+    component: webserver
+    release: airflow
+    chart: "airflow-1.13.0"
+    heritage: Helm
+---
+# Source: airflow/templates/workers/worker-serviceaccount.yaml
+################################
+## Airflow Worker ServiceAccount
+#################################
+apiVersion: v1
+kind: ServiceAccount
+automountServiceAccountToken: true
+metadata:
+  name: airflow-worker
+  labels:
+    tier: airflow
+    component: worker
+    release: airflow
+    chart: "airflow-1.13.0"
+    heritage: Helm
 ---
 # Source: airflow/charts/postgresql/templates/secrets.yaml
 apiVersion: v1
 kind: Secret
 metadata:
   name: airflow-postgresql
-#  namespace: "default"
+  namespace: "default"
   labels:
     app.kubernetes.io/instance: airflow
     app.kubernetes.io/managed-by: Helm
@@ -493,57 +493,57 @@ rules:
 ################################
 ## Airflow Pod Launcher Role Binding
 #################################
-# apiVersion: rbac.authorization.k8s.io/v1
-# kind: RoleBinding
-# metadata:
-#   namespace: "default"
-#   name: airflow-pod-launcher-rolebinding
-#   labels:
-#     tier: airflow
-#     release: airflow
-#     chart: "airflow-1.13.0"
-#     heritage: Helm
-# roleRef:
-#   apiGroup: rbac.authorization.k8s.io
-#   kind: Role
-#   name: airflow-pod-launcher-role
-# subjects:
-#   - kind: ServiceAccount
-#     name: airflow-worker
-#     namespace: "default"
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  namespace: "default"
+  name: airflow-pod-launcher-rolebinding
+  labels:
+    tier: airflow
+    release: airflow
+    chart: "airflow-1.13.0"
+    heritage: Helm
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: airflow-pod-launcher-role
+subjects:
+  - kind: ServiceAccount
+    name: airflow-worker
+    namespace: "default"
 ---
 # Source: airflow/templates/rbac/pod-log-reader-rolebinding.yaml
 ################################
 ## Airflow Pod Reader Role Binding
 #################################
-# apiVersion: rbac.authorization.k8s.io/v1
-# kind: RoleBinding
-# metadata:
-#   namespace: "default"
-#   name: airflow-pod-log-reader-rolebinding
-#   labels:
-#     tier: airflow
-#     release: airflow
-#     chart: "airflow-1.13.0"
-#     heritage: Helm
-# roleRef:
-#   apiGroup: rbac.authorization.k8s.io
-#   kind: Role
-#   name: airflow-pod-log-reader-role
-# subjects:
-#   - kind: ServiceAccount
-#     name: airflow-webserver
-#     namespace: "default"
-#   - kind: ServiceAccount
-#     name: airflow-triggerer
-#     namespace: "default"
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  namespace: "default"
+  name: airflow-pod-log-reader-rolebinding
+  labels:
+    tier: airflow
+    release: airflow
+    chart: "airflow-1.13.0"
+    heritage: Helm
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: airflow-pod-log-reader-role
+subjects:
+  - kind: ServiceAccount
+    name: airflow-webserver
+    namespace: "default"
+  - kind: ServiceAccount
+    name: airflow-triggerer
+    namespace: "default"
 ---
 # Source: airflow/charts/postgresql/templates/primary/svc-headless.yaml
 apiVersion: v1
 kind: Service
 metadata:
   name: airflow-postgresql-hl
-#  namespace: "default"
+  namespace: "default"
   labels:
     app.kubernetes.io/instance: airflow
     app.kubernetes.io/managed-by: Helm
@@ -578,7 +578,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: airflow-postgresql
-#  namespace: "default"
+  namespace: "default"
   labels:
     app.kubernetes.io/instance: airflow
     app.kubernetes.io/managed-by: Helm
@@ -797,7 +797,7 @@ spec:
         []
       restartPolicy: Always
       terminationGracePeriodSeconds: 10
-      # serviceAccountName: airflow-scheduler
+      serviceAccountName: airflow-scheduler
       securityContext: 
         runAsUser: 50000
         fsGroup: 0
@@ -1042,7 +1042,7 @@ spec:
         []
       topologySpreadConstraints:
         []
-      # serviceAccountName: airflow-statsd
+      serviceAccountName: airflow-statsd
       securityContext: 
         runAsUser: 65534
       restartPolicy: Always
@@ -1143,7 +1143,7 @@ spec:
         checksum/extra-secrets: e9582fdd622296c976cbc10a5ba7d6702c28a24fe80795ea5b84ba443a56c827
         cluster-autoscaler.kubernetes.io/safe-to-evict: "true"
     spec:
-      # serviceAccountName: airflow-webserver
+      serviceAccountName: airflow-webserver
       nodeSelector:
         {}
       affinity:
@@ -1349,7 +1349,7 @@ apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   name: airflow-postgresql
-#  namespace: "default"
+  namespace: "default"
   labels:
     app.kubernetes.io/instance: airflow
     app.kubernetes.io/managed-by: Helm
@@ -1379,7 +1379,7 @@ spec:
         helm.sh/chart: postgresql-13.2.24
         app.kubernetes.io/component: primary
     spec:
-      # serviceAccountName: default
+      serviceAccountName: default
       
       affinity:
         podAffinity:
@@ -1545,7 +1545,7 @@ spec:
         []
       topologySpreadConstraints:
         []
-      # serviceAccountName: airflow-redis
+      serviceAccountName: airflow-redis
       securityContext: 
         runAsUser: 0
       containers:
@@ -1636,7 +1636,7 @@ spec:
         []
       terminationGracePeriodSeconds: 60
       restartPolicy: Always
-      # serviceAccountName: airflow-triggerer
+      serviceAccountName: airflow-triggerer
       securityContext: 
         runAsUser: 50000
         fsGroup: 0
@@ -1891,7 +1891,7 @@ spec:
         []
       terminationGracePeriodSeconds: 600
       restartPolicy: Always
-      # serviceAccountName: airflow-worker
+      serviceAccountName: airflow-worker
       securityContext: 
         runAsUser: 50000
         fsGroup: 0
@@ -2434,7 +2434,7 @@ spec:
         []
       topologySpreadConstraints:
         []
-      # serviceAccountName: airflow-create-user-job
+      serviceAccountName: airflow-create-user-job
       containers:
         - name: create-user
           image: {{ printf "%s:%s" .Values.airflow.image.repository .Values.airflow.image.tag | quote }}
@@ -2575,7 +2575,7 @@ spec:
         []
       topologySpreadConstraints:
         []
-      # serviceAccountName: airflow-migrate-database-job
+      serviceAccountName: airflow-migrate-database-job
       containers:
         - name: run-airflow-migrations
           image: {{ printf "%s:%s" .Values.airflow.image.repository .Values.airflow.image.tag | quote }}
@@ -2813,7 +2813,7 @@ spec:
         []
       topologySpreadConstraints:
         []
-      # serviceAccountName: airflow-dbinit-job
+      serviceAccountName: airflow-dbinit-job
       containers:
         - name: init-db
           image: {{ printf "%s:%s" .Values.airflow.image.repository .Values.airflow.image.tag | quote }}
