@@ -26,6 +26,11 @@ mlflow:
   MLFLOW_SERVER: aHR0cDovLzEzLjM5LjgwLjEyMjo1MDAwLw==
   port: 5001
 
+airflow:
+  service: airflow-webserver
+  port: 8080
+  user: YWRtaW4=
+  pdw: YWRtaW4=
 
 imagePullSecrets: []
 nameOverride: ""

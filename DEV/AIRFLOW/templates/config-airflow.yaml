@@ -286,8 +286,6 @@ data:
     [api]
     auth_backends = airflow.api.auth.backend.basic_auth
 
-    
-    
   airflow_local_settings.py: |-
     
     from airflow.www.utils import UIAlert
@@ -710,9 +708,7 @@ spec:
     component: webserver
     release: airflow
   ports:
-  
-    -
-      name: airflow-ui
+    - name: airflow-ui
       port: 8080
 ---
 # Source: airflow/templates/workers/worker-service.yaml

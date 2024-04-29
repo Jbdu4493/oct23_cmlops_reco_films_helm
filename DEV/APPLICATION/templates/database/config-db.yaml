@@ -96,7 +96,7 @@ spec:
 apiVersion: v1
 kind: Pod
 metadata:
-  name: {{ printf "%s-%s-initdb"  .Values.database.name .Values.ENV | quote }}
+  name: {{ printf "%s-%s-initdb-act-dag"  .Values.database.name .Values.ENV | quote }}
 spec:
   containers:
   - name: init-db
@@ -111,6 +111,12 @@ spec:
         value: {{ .Values.database.service.port | quote}}
       - name: PYTHONUNBUFFERED
         value: "1"
+      - name: AIRFLOW_URL
+        value: {{ printf "http://%s:%s" .Values.airflow.service .Values.airflow.port | quote }}
+      - name: AIRFLOW_USER 
+        value: {{ .Values.airflow.user | b64dec | quote }}
+      - name: AIRFLOW_USR_PWD 
+        value: {{ .Values.airflow.pdw| b64dec | quote }}
   restartPolicy: Never
 
 ---
