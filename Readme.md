@@ -72,7 +72,7 @@ Delete ArgoCD deployments of Application, Airflow and MLflow Helm releases.
 Usage
 =====
 
-After successful deployment, the film recommendation system will be accessible by FastAPI, Streamlit and other services hosted on Local Kubernetes cluster:
+After successful deployment, the film recommendation system will be accessible by means of FastAPI, Streamlit and other services hosted on Local Kubernetes cluster:
 
 ArgoCD API Server - 
 localhost:8081 (admin - auto-generated password)
