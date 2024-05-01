@@ -1,4 +1,4 @@
-# Movieflix: Film Recommendation System Deployment with ArgoCD
+# Movieflix: Film Recommendation System Deployment on Local Kubernetes cluster
 
 ## Introduction
 
