@@ -2,7 +2,10 @@
 
 ## Introduction
 
-This project combines the power of Helm and ArgoCD to deploy a film recommendation system, developed as part of the `oct23_cmlops_reco_films` project, into a Kubernetes environment. Leveraging Helm charts from `oct23_cmlops_reco_films_helm`, it offers a streamlined and scalable approach to deploying and managing the film recommendation service.
+This MLOps project combines the power of Helm and ArgoCD to deploy a film recommendation system, developed as part of the `oct23_cmlops_reco_films` project, into a Kubernetes environment. Leveraging Helm charts from `oct23_cmlops_reco_films_helm`, it offers a streamlined and scalable approach to deploying and managing the film recommendation service.
+
+![Recofilm_architecture](https://github.com/Jbdu4493/oct23_cmlops_reco_films_helm/assets/88548265/7aa3d3db-ef1e-4786-a2bf-da8dd091731f)
+
 
 ## Table of Contents
 
