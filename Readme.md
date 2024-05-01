@@ -49,12 +49,11 @@ kubectl port-forward svc/argocd-server -n argocd 8081:443
 
 ### Helm Chart Installation
 
-1. Clone the `oct23_cmlops_reco_films_helm` repository.
-2. Navigate to the repository directory.
-3. Deploy the Helm chart to your Kubernetes cluster using:
+1. Clone the current `oct23_cmlops_reco_films_helm` repository.
+2. Navigate to the repository local directory on your computer.
+3. Deploy the movie recommender Helm chart to your Kubernetes cluster using:
 ```sh
-helm install my-film-reco-films-DEV ./DEV/ 
-helm install my-film-reco-films-PRD ./PRD/ 
+helm install my-film-reco-films-DEV ./DEV/
 ```
 
 ### ArgoCD Deployment
@@ -84,7 +83,7 @@ localhost:8001/docs (test1 - testuser)
 Airflow -
 localhost:8080 (admin - admin)
 
-mlflow - 
+MLflow - 
 localhost:5001
 
 Streamlit -
