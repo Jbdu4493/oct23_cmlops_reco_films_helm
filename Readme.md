@@ -2,7 +2,7 @@
 
 ## Introduction
 
-This MLOps project combines the power of Helm and ArgoCD to deploy a film recommendation system, developed as part of the `oct23_cmlops_reco_films` project, into a Kubernetes environment. Leveraging Helm charts from `oct23_cmlops_reco_films_helm`, it offers a streamlined and scalable approach to deploying and managing the film recommendation service.
+This MLOps project combines the power of Helm and ArgoCD to deploy a film recommendation system into a Kubernetes environment. It is a part of the [movie-recommander](https://github.com/Chadiboulos/movie-recommander/tree/main) Datascientest project. Leveraging Helm charts from `oct23_cmlops_reco_films_helm`, it offers a streamlined and scalable approach to deploying and managing the film recommendation service. 
 
 ![Recofilm_architecture](https://github.com/Jbdu4493/oct23_cmlops_reco_films_helm/assets/88548265/7aa3d3db-ef1e-4786-a2bf-da8dd091731f)
 
@@ -43,7 +43,7 @@ rm argocd-linux-amd64
 
 # Access Argo CD API Server
 kubectl patch svc argocd-server -n argocd -p '{"spec": {"type": "LoadBalancer"}}'
-kubectl port-forward svc/argocd-server -n argocd 8080:443
+kubectl port-forward svc/argocd-server -n argocd 8081:443
 ```
 
 ### Helm Chart Installation
@@ -72,16 +72,16 @@ Delete ArgoCD deployments of Application, Airflow and MLflow Helm releases.
 Usage
 =====
 
-After successful deployment, the film recommendation system will be accessible within your Kubernetes cluster. You will have access to API and Streamlit and other services hosted on Local Kubernetes cluster:
+After successful deployment, the film recommendation system will be accessible by FastAPI, Streamlit and other services hosted on Local Kubernetes cluster:
 
 ArgoCD API Server - 
-localhost (admin - auto-generated password)
+localhost:8081 (admin - auto-generated password)
 
-FastApi Application
-localhost:8001/docs
+FastApi Application -
+localhost:8001/docs (test1 - testuser)
 
 Airflow -
-localhost:8080
+localhost:8080 (admin - admin)
 
 mlflow - 
 localhost:5001
