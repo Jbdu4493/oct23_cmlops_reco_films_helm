@@ -9,8 +9,8 @@ This project combines the power of Helm and ArgoCD to deploy a film recommendati
 - [Introduction](#introduction)
 - [Installation](#installation)
   - [Prerequisites](#prerequisites)
-  - [ArgoCD Setup](#argocd-setup)
   - [Helm Chart Installation](#helm-chart-installation)
+  - [ArgoCD Deployment](#argocd-deployment)
 - [Usage](#usage)
 - [Features](#features)
 - [Dependencies](#dependencies)
@@ -47,30 +47,42 @@ kubectl port-forward svc/argocd-server -n argocd 8080:443
 
 1. Clone the `oct23_cmlops_reco_films_helm` repository.
 2. Navigate to the repository directory.
-../oct23_cmlops_reco_films_helm/DEV
-
 3. Deploy the Helm chart to your Kubernetes cluster using:
    ```sh
    helm install my-film-reco-films-DEV ./DEV/ 
    helm install my-film-reco-films-PRD ./PRD/ 
    ```
 
-4. Deploy with ArgoCD to manage the deployed Helm release auto.
-   ```sh
-   kubectl apply -f https://raw.githubusercontent.com/Jbdu4493/oct23_cmlops_reco_films_helm/main/PRD/application_argocd.yaml
-   kubectl apply -f https://raw.githubusercontent.com/Jbdu4493/oct23_cmlops_reco_films_helm/main/DEV/application_argocd.yaml
-   ```
+With ArgoCD deploy Application, Airflow and MLflow Helm releases.
+```sh
+./install_app.sh
+```
 
 Usage
 =====
 
-After successful deployment, the film recommendation system will be accessible within your Kubernetes cluster. You will have access to API and Streamlit via ingress
+After successful deployment, the film recommendation system will be accessible within your Kubernetes cluster. You will have access to API and Streamlit
 
+argocd - 
+localhost (admin - auto-generated password)
+
+FastApi Application
+localhost:8001/docs
+
+Airflow -
+localhost:8080
+
+mlflow - 
+localhost:5001
+
+Streamlit -
+localhost:8504 (test1 - testuser)
 
 Dependencies
 ============
 
-*   Kubernetes
-*   Helm 3
-*   ArgoCD
 *   Docker
+*   Kubernetes
+*   Helm
+*   ArgoCD
+
