@@ -57,11 +57,12 @@ helm install my-film-reco-films-DEV ./DEV/
 ```
 
 ### ArgoCD Deployment
+Navigate to the repository `../oct23_cmlops_reco_films_helm/DEV` directory on your computer.
 With ArgoCD deploy Application, Airflow and MLflow Helm releases.
 ```sh
 ./install_app.sh
 ```
-Use "admin" and auto-generated password to access to ArgoCD API Server
+Use "admin" and auto-generated password to access to ArgoCD API Server.
 
 ### Delete ArgoCD Deployment
 Delete ArgoCD deployments of Application, Airflow and MLflow Helm releases.
@@ -72,7 +73,7 @@ Delete ArgoCD deployments of Application, Airflow and MLflow Helm releases.
 Usage
 =====
 
-After successful deployment, the film recommendation system will be accessible by means of FastAPI, Streamlit and other services hosted on Local Kubernetes cluster:
+After successful deployment, the film recommendation application will be accessible via FastAPI, Streamlit, and other services hosted on a local Kubernetes cluster through a web browser:
 
 ArgoCD API Server - 
 localhost:8081 (admin - auto-generated password)
