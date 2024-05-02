@@ -283,6 +283,9 @@ data:
     enable_proxy_fix = True
     rbac = True
     
+    [api]
+    auth_backends = airflow.api.auth.backend.basic_auth
+
   airflow_local_settings.py: |-
     
     from airflow.www.utils import UIAlert
@@ -302,8 +305,8 @@ data:
     
     {
     "database_uri": {{ .Values.variables.database_uri | b64dec | quote  }} ,
-    "experiment_name": "surprise_recofilms" ,
-    "mlflowserver":  {{ .Values.variables.mlflowserver | b64dec | quote }}
+    "experiment_name": "Default" ,
+    "mlflowserver":  "http://mlflow-movieflix-prd:5001"
     }
 
 ---
@@ -705,9 +708,7 @@ spec:
     component: webserver
     release: airflow
   ports:
-  
-    -
-      name: airflow-ui
+    - name: airflow-ui
       port: 8080
 ---
 # Source: airflow/templates/workers/worker-service.yaml
@@ -805,7 +806,8 @@ spec:
         - name: wait-for-airflow-migrations
           resources:
             {}
-          image: {{ .Values.airflow.image.repository }}:{{ .Values.airflow.image.tag }}
+          image: {{ printf "%s:%s" .Values.airflow.image.repository .Values.airflow.image.tag | quote }}
+                
           imagePullPolicy: IfNotPresent
           securityContext: 
             allowPrivilegeEscalation: false
@@ -813,6 +815,10 @@ spec:
               drop:
                 - ALL
           volumeMounts:
+            - mountPath: "/mlflow/mlruns"
+              name: mlflow-volume
+            - mountPath: "/opt/airflow/temp/model"
+              name: temp-model-pv
             - name: config
               mountPath: "/opt/airflow/airflow.cfg"
               subPath: airflow.cfg
@@ -869,7 +875,7 @@ spec:
       containers:
         # Always run the main scheduler container.
         - name: scheduler
-          image: {{ .Values.airflow.image.repository }}:{{ .Values.airflow.image.tag }}
+          image: {{ printf "%s:%s" .Values.airflow.image.repository .Values.airflow.image.tag | quote }}
           imagePullPolicy: IfNotPresent
           securityContext: 
             allowPrivilegeEscalation: false
@@ -946,6 +952,10 @@ spec:
           resources:
             {}
           volumeMounts:
+            - mountPath: "/mlflow/mlruns"
+              name: mlflow-volume
+            - mountPath: "/opt/airflow/temp/model"
+              name: temp-model-pv
             - name: config
               mountPath: /opt/airflow/pod_templates/pod_template_file.yaml
               subPath: pod_template_file.yaml
@@ -963,7 +973,7 @@ spec:
         - name: scheduler-log-groomer
           resources:
             {}
-          image: {{ .Values.airflow.image.repository }}:{{ .Values.airflow.image.tag }}
+          image: {{ printf "%s:%s" .Values.airflow.image.repository .Values.airflow.image.tag | quote }}
           imagePullPolicy: IfNotPresent
           securityContext: 
             allowPrivilegeEscalation: false
@@ -979,15 +989,23 @@ spec:
             - name: AIRFLOW_HOME
               value: "/opt/airflow"
           volumeMounts:
+            - mountPath: "/mlflow/mlruns"
+              name: mlflow-volume
             - name: logs
               mountPath: "/opt/airflow/logs"
       volumes:
+        - name: mlflow-volume
+          persistentVolumeClaim:
+            claimName: mlflow-pvc
         - name: config
           configMap:
             name: airflow-config
         - name: logs
           emptyDir:
             {}
+        - name : temp-model-pv
+          persistentVolumeClaim:
+            claimName: temp-model-pvc
 ---
 # Source: airflow/templates/statsd/statsd-deployment.yaml
 ################################
@@ -1067,9 +1085,15 @@ spec:
               mountPath: /etc/statsd-exporter/mappings.yml
               subPath: mappings.yml
       volumes:
+        - name: mlflow-volume
+          persistentVolumeClaim:
+            claimName: mlflow-pvc
         - name: config
           configMap:
             name: airflow-statsd
+        - name : temp-model-pv
+          persistentVolumeClaim:
+            claimName: temp-model-pvc
 ---
 # Source: airflow/templates/webserver/webserver-deployment.yaml
 ################################
@@ -1144,7 +1168,7 @@ spec:
         - name: wait-for-airflow-migrations
           resources:
             {}
-          image: {{ .Values.airflow.image.repository }}:{{ .Values.airflow.image.tag }}
+          image: {{ printf "%s:%s" .Values.airflow.image.repository .Values.airflow.image.tag | quote }}
           imagePullPolicy: IfNotPresent
           securityContext: 
             allowPrivilegeEscalation: false
@@ -1152,6 +1176,10 @@ spec:
               drop:
                 - ALL
           volumeMounts:
+            - mountPath: "/mlflow/mlruns"
+              name: mlflow-volume
+            - mountPath: "/opt/airflow/temp/model"
+              name: temp-model-pv
             - name: config
               mountPath: "/opt/airflow/airflow.cfg"
               subPath: airflow.cfg
@@ -1207,7 +1235,7 @@ spec:
                   key: connection
       containers:
         - name: webserver
-          image: {{ .Values.airflow.image.repository }}:{{ .Values.airflow.image.tag }}
+          image: {{ printf "%s:%s" .Values.airflow.image.repository .Values.airflow.image.tag | quote }}
           imagePullPolicy: IfNotPresent
           securityContext: 
             allowPrivilegeEscalation: false
@@ -1221,6 +1249,8 @@ spec:
           resources:
             {}
           volumeMounts:
+            - mountPath: "/mlflow/mlruns"
+              name: mlflow-volume
             - name: config
               mountPath: /opt/airflow/pod_templates/pod_template_file.yaml
               subPath: pod_template_file.yaml
@@ -1233,6 +1263,8 @@ spec:
               mountPath: "/opt/airflow/config/airflow_local_settings.py"
               subPath: airflow_local_settings.py
               readOnly: true
+            - mountPath: "/opt/airflow/temp/model"
+              name: temp-model-pv
           ports:
             - name: airflow-ui
               containerPort: 8080
@@ -1303,6 +1335,12 @@ spec:
                   name: airflow-broker-url
                   key: connection          
       volumes:
+        - name: mlflow-volume
+          persistentVolumeClaim:
+            claimName: mlflow-pvc
+        - name : temp-model-pv
+          persistentVolumeClaim:
+            claimName: temp-model-pvc
         - name: config
           configMap:
             name: airflow-config
@@ -1607,7 +1645,7 @@ spec:
         - name: wait-for-airflow-migrations
           resources:
             {}
-          image: {{ .Values.airflow.image.repository }}:{{ .Values.airflow.image.tag }}
+          image: {{ printf "%s:%s" .Values.airflow.image.repository .Values.airflow.image.tag | quote }}
           imagePullPolicy: IfNotPresent
           securityContext: 
             allowPrivilegeEscalation: false
@@ -1615,6 +1653,10 @@ spec:
               drop:
                 - ALL
           volumeMounts:
+            - mountPath: "/mlflow/mlruns"
+              name: mlflow-volume
+            - mountPath: "/opt/airflow/temp/model"
+              name: temp-model-pv
             - name: config
               mountPath: "/opt/airflow/airflow.cfg"
               subPath: airflow.cfg
@@ -1670,7 +1712,7 @@ spec:
                   key: connection
       containers:
         - name: triggerer
-          image: {{ .Values.airflow.image.repository }}:{{ .Values.airflow.image.tag }}
+          image: {{ printf "%s:%s" .Values.airflow.image.repository .Values.airflow.image.tag | quote }}
           imagePullPolicy: IfNotPresent
           securityContext: 
             allowPrivilegeEscalation: false
@@ -1684,6 +1726,8 @@ spec:
           resources:
             {}
           volumeMounts:
+            - mountPath: "/mlflow/mlruns"
+              name: mlflow-volume
             - name: logs
               mountPath: "/opt/airflow/logs"
             - name: config
@@ -1753,7 +1797,7 @@ spec:
         - name: triggerer-log-groomer
           resources:
             {}
-          image: {{ .Values.airflow.image.repository }}:{{ .Values.airflow.image.tag }}
+          image: {{ printf "%s:%s" .Values.airflow.image.repository .Values.airflow.image.tag | quote }}
           imagePullPolicy: IfNotPresent
           securityContext: 
             allowPrivilegeEscalation: false
@@ -1769,12 +1813,20 @@ spec:
             - name: AIRFLOW_HOME
               value: "/opt/airflow"
           volumeMounts:
+            - mountPath: "/mlflow/mlruns"
+              name: mlflow-volume
             - name: logs
               mountPath: "/opt/airflow/logs"
       volumes:
+        - name: mlflow-volume
+          persistentVolumeClaim:
+            claimName: mlflow-pvc
         - name: config
           configMap:
             name: airflow-config
+        - name : temp-model-pv
+          persistentVolumeClaim:
+            claimName: temp-model-pvc
   volumeClaimTemplates:
     - metadata:
         name: logs
@@ -1848,7 +1900,7 @@ spec:
         - name: wait-for-airflow-migrations
           resources:
             {}
-          image: {{ .Values.airflow.image.repository }}:{{ .Values.airflow.image.tag }}
+          image: {{ printf "%s:%s" .Values.airflow.image.repository .Values.airflow.image.tag | quote }}
           imagePullPolicy: IfNotPresent
           securityContext: 
             allowPrivilegeEscalation: false
@@ -1856,6 +1908,8 @@ spec:
               drop:
                 - ALL
           volumeMounts:
+            - mountPath: "/mlflow/mlruns"
+              name: mlflow-volume
             - name: config
               mountPath: "/opt/airflow/airflow.cfg"
               subPath: airflow.cfg
@@ -1864,6 +1918,8 @@ spec:
               mountPath: "/opt/airflow/config/airflow_local_settings.py"
               subPath: airflow_local_settings.py
               readOnly: true
+            - mountPath: "/opt/airflow/temp/model"
+              name: temp-model-pv
           args:          
             - airflow
             - db
@@ -1911,7 +1967,7 @@ spec:
                   key: connection
       containers:
         - name: worker
-          image: {{ .Values.airflow.image.repository }}:{{ .Values.airflow.image.tag }}
+          image: {{ printf "%s:%s" .Values.airflow.image.repository .Values.airflow.image.tag | quote }}
           imagePullPolicy: IfNotPresent
           securityContext: 
             allowPrivilegeEscalation: false
@@ -1940,6 +1996,10 @@ spec:
             - name: worker-logs
               containerPort: 8793
           volumeMounts:
+            - mountPath: "/mlflow/mlruns"
+              name: mlflow-volume
+            - mountPath: "/opt/airflow/temp/model"
+              name: temp-model-pv
             - name: logs
               mountPath: "/opt/airflow/logs"
             - name: config
@@ -1994,7 +2054,7 @@ spec:
                   name: airflow-broker-url
                   key: connection          
         - name: worker-log-groomer
-          image: {{ .Values.airflow.image.repository }}:{{ .Values.airflow.image.tag }}
+          image: {{ printf "%s:%s" .Values.airflow.image.repository .Values.airflow.image.tag | quote }}
           imagePullPolicy: IfNotPresent
           securityContext: 
             allowPrivilegeEscalation: false
@@ -2012,12 +2072,22 @@ spec:
           resources:
             {}
           volumeMounts:
+            - mountPath: "/mlflow/mlruns"
+              name: mlflow-volume
+            - mountPath: "/opt/airflow/temp/model"
+              name: temp-model-pv
             - name: logs
               mountPath: "/opt/airflow/logs"
       volumes:
+        - name: mlflow-volume
+          persistentVolumeClaim:
+            claimName: mlflow-pvc
         - name: config
           configMap:
             name: airflow-config
+        - name : temp-model-pv
+          persistentVolumeClaim:
+            claimName: temp-model-pvc
   volumeClaimTemplates:
     - metadata:
         name: logs
@@ -2025,7 +2095,8 @@ spec:
         accessModes: ["ReadWriteOnce"]
         resources:
           requests:
-            storage: 100Gi
+            storage: 10Gi
+
 ---
 # Source: airflow/templates/cleanup/cleanup-cronjob.yaml
 ################################
@@ -2367,7 +2438,7 @@ spec:
       serviceAccountName: airflow-create-user-job
       containers:
         - name: create-user
-          image: {{ .Values.airflow.image.repository }}:{{ .Values.airflow.image.tag }}
+          image: {{ printf "%s:%s" .Values.airflow.image.repository .Values.airflow.image.tag | quote }}
           imagePullPolicy: IfNotPresent
           securityContext: 
             allowPrivilegeEscalation: false
@@ -2436,6 +2507,10 @@ spec:
           resources:
             {}
           volumeMounts:
+            - mountPath: "/mlflow/mlruns"
+              name: mlflow-volume
+            - mountPath: "/opt/airflow/temp/model"
+              name: temp-model-pv
             - name: config
               mountPath: "/opt/airflow/airflow.cfg"
               subPath: airflow.cfg
@@ -2445,9 +2520,28 @@ spec:
               subPath: airflow_local_settings.py
               readOnly: true
       volumes:
+        - name: mlflow-volume
+          persistentVolumeClaim:
+            claimName: mlflow-pvc
         - name: config
           configMap:
             name: airflow-config
+        - name : temp-model-pv
+          persistentVolumeClaim:
+            claimName: temp-model-pvc
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: temp-model-pvc
+spec:
+  accessModes:
+    - ReadWriteMany
+  storageClassName: hostpath
+  resources:
+    requests:
+      storage: 10Gi
+
 ---
 # Source: airflow/templates/jobs/migrate-database-job.yaml
 ################################
@@ -2485,7 +2579,7 @@ spec:
       serviceAccountName: airflow-migrate-database-job
       containers:
         - name: run-airflow-migrations
-          image: {{ .Values.airflow.image.repository }}:{{ .Values.airflow.image.tag }}
+          image: {{ printf "%s:%s" .Values.airflow.image.repository .Values.airflow.image.tag | quote }}
           imagePullPolicy: IfNotPresent
           securityContext: 
             allowPrivilegeEscalation: false
@@ -2543,6 +2637,10 @@ spec:
           resources:
             {}
           volumeMounts:
+            - mountPath: "/mlflow/mlruns"
+              name: mlflow-volume
+            - mountPath: "/opt/airflow/temp/model"
+              name: temp-model-pv
             - name: config
               mountPath: "/opt/airflow/airflow.cfg"
               subPath: airflow.cfg
@@ -2552,9 +2650,15 @@ spec:
               subPath: airflow_local_settings.py
               readOnly: true
       volumes:
+        - name: mlflow-volume
+          persistentVolumeClaim:
+            claimName: mlflow-pvc
         - name: config
           configMap:
             name: airflow-config
+        - name : temp-model-pv
+          persistentVolumeClaim:
+            claimName: temp-model-pvc
 # Source: airflow/templates/jobs/create-varaiable-job.yaml
 ################################
 ## Airflow Run Migrations
@@ -2590,7 +2694,7 @@ spec:
         []
       containers:
         - name: run-airflow-variables
-          image: {{ .Values.airflow.image.repository }}:{{ .Values.airflow.image.tag }}
+          image: {{ printf "%s:%s" .Values.airflow.image.repository .Values.airflow.image.tag | quote }}
           imagePullPolicy: IfNotPresent
           securityContext: 
             allowPrivilegeEscalation: false
@@ -2648,6 +2752,10 @@ spec:
           resources:
             {}
           volumeMounts:
+            - mountPath: "/mlflow/mlruns"
+              name: mlflow-volume
+            - mountPath: "/opt/airflow/temp/model"
+              name: temp-model-pv
             - name: config
               mountPath: "/opt/airflow/airflow.cfg"
               subPath: airflow.cfg
@@ -2661,6 +2769,146 @@ spec:
               subPath: variables.json
               readOnly: true
       volumes:
+        - name: mlflow-volume
+          persistentVolumeClaim:
+            claimName: mlflow-pvc
         - name: config
           configMap:
             name: airflow-config
+        - name : temp-model-pv
+          persistentVolumeClaim:
+            claimName: temp-model-pvc
+---
+
+# Source: airflow/templates/jobs/create-user-job.yaml
+################################
+## Airflow Create User Job
+#################################
+apiVersion: batch/v1
+kind: Job
+
+metadata:
+  name: airflow-create-dbinit
+  annotations:
+    argocd.argoproj.io/hook: Sync 
+spec:
+  ttlSecondsAfterFinished: 300
+  template:
+    metadata:
+      labels:
+        tier: airflow
+        component: create-init-db
+        release: airflow
+      annotations:
+        cluster-autoscaler.kubernetes.io/safe-to-evict: "true"
+    spec:
+      securityContext: 
+        runAsUser: 50000
+        fsGroup: 0
+      restartPolicy: OnFailure
+      nodeSelector:
+        {}
+      affinity:
+        {}
+      tolerations:
+        []
+      topologySpreadConstraints:
+        []
+      serviceAccountName: airflow-dbinit-job
+      containers:
+        - name: init-db
+          image: {{ printf "%s:%s" .Values.airflow.image.repository .Values.airflow.image.tag | quote }}
+          imagePullPolicy: IfNotPresent
+          securityContext: 
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+          args: 
+            - bash
+            - -c
+            - |-
+              exec \
+              airflow db init
+          envFrom:          
+            []
+          env:          
+            # Dynamically created environment variables
+            # Dynamically created secret envs
+            # Extra env          
+            # Hard Coded Airflow Envs
+            - name: AIRFLOW__CORE__FERNET_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: airflow-fernet-key
+                  key: fernet-key
+            - name: AIRFLOW_HOME
+              value: /opt/airflow
+            # For Airflow <2.3, backward compatibility; moved to [database] in 2.3
+            - name: AIRFLOW__CORE__SQL_ALCHEMY_CONN
+              valueFrom:
+                secretKeyRef:
+                  name: airflow-metadata
+                  key: connection
+            - name: AIRFLOW__DATABASE__SQL_ALCHEMY_CONN
+              valueFrom:
+                secretKeyRef:
+                  name: airflow-metadata
+                  key: connection
+            - name: AIRFLOW_CONN_AIRFLOW_DB
+              valueFrom:
+                secretKeyRef:
+                  name: airflow-metadata
+                  key: connection
+            - name: AIRFLOW__WEBSERVER__SECRET_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: airflow-webserver-secret-key
+                  key: webserver-secret-key
+            - name: AIRFLOW__CELERY__BROKER_URL
+              valueFrom:
+                secretKeyRef:
+                  name: airflow-broker-url
+                  key: connection          
+          resources:
+            {}
+          volumeMounts:
+            - mountPath: "/mlflow/mlruns"
+              name: mlflow-volume
+            - mountPath: "/opt/airflow/temp/model"
+              name: temp-model-pv
+            - name: config
+              mountPath: "/opt/airflow/airflow.cfg"
+              subPath: airflow.cfg
+              readOnly: true
+            - name: config
+              mountPath: "/opt/airflow/config/airflow_local_settings.py"
+              subPath: airflow_local_settings.py
+              readOnly: true
+      volumes:
+        - name: mlflow-volume
+          persistentVolumeClaim:
+            claimName: mlflow-pvc
+        - name: config
+          configMap:
+            name: airflow-config
+        - name : temp-model-pv
+          persistentVolumeClaim:
+            claimName: temp-model-pvc
+
+---
+# Source: airflow/templates/jobs/create-user-job-serviceaccount.yaml
+###########################################
+## Airflow Create User Job ServiceAccount
+###########################################
+apiVersion: v1
+kind: ServiceAccount
+automountServiceAccountToken: true
+metadata:
+  name: airflow-dbinit-job
+  labels:
+    tier: airflow
+    component: create-init-db
+    release: airflow
+    chart: "airflow-1.13.0"
+    heritage: Helm

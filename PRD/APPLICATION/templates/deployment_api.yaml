@@ -4,7 +4,7 @@ metadata:
   name: {{ printf "%s-%s"  .Values.api.name .Values.ENV | quote }}
 spec:
   {{- if not .Values.autoscaling.enabled }}
-  replicas: {{ .Values.api.replicaCount }}
+  replicas: {{ .Values.replicaCount }}
   {{- end }}
   selector:
     matchLabels:
@@ -14,9 +14,31 @@ spec:
       labels:
         app: {{ printf "%s-%s"  .Values.api.name .Values.ENV | quote }}
     spec:
+      initContainers:
+      - name: init-db
+        image: {{ .Values.database.image.initdb | quote }}
+        envFrom:
+          - secretRef:
+              name: {{ printf "%s-%s-secret"  .Values.database.name .Values.ENV | quote }}
+        env:
+          - name: POSTGRES_HOST
+            value: {{ printf "%s-%s"  .Values.database.name .Values.ENV | quote }}
+          - name: POSTGRES_PORT
+            value: {{ .Values.database.service.port | quote}}
+          - name: PYTHONUNBUFFERED
+            value: "1"
+          - name: AIRFLOW_URL
+            value: {{ printf "http://%s:%s" .Values.airflow.service .Values.airflow.port | quote }}
+          - name: AIRFLOW_USER
+            value: {{ .Values.airflow.user | b64dec | quote }}
+          - name: AIRFLOW_USR_PWD
+            value: {{ .Values.airflow.pdw| b64dec | quote }}
       containers:
       - name: {{ .Values.api.name }}
         image: {{ .Values.api.image.repository }}:{{ .Values.image.tag }}
+        volumeMounts:
+        - mountPath: "/mlflow/mlruns"
+          name: mlflow-volume
         env:
           - name: SECRET_KEY
             valueFrom:
@@ -49,36 +71,33 @@ spec:
                 name: mysecret
                 key: PASSWORD
           - name: HOST
-            valueFrom:
-              secretKeyRef:
-                name: mysecret
-                key: HOST
+            value: "movieflix-database-{{ .Values.ENV }}"
           - name: PORT
-            valueFrom:
-              secretKeyRef:
-                name: mysecret
-                key: PORT
+            value: {{ .Values.database.service.port | quote }}
           - name: MLFLOW_SERVER
-            valueFrom:
-              secretKeyRef:
-                name:  mysecret
-                key: MLFLOW_SERVER
+            value: "http://mlflow-movieflix-{{ .Values.ENV }}:{{ .Values.mlflow.port }}"
           - name: MLFLOW_MODELID
             value: {{ .Values.mlflow.MLFLOW_MODELID | quote }}
           - name: ENV
             value: {{ .Values.ENV | quote }}
           - name: TAG
-            value: {{ .Values.image.tag }}
+            value: {{ .Values.image.tag | quote }}
         imagePullPolicy: {{ .Values.api.image.pullPolicy }}
         ports:
-        - containerPort: {{ .Values.api.service.targetPort }}
+          - containerPort: {{ .Values.api.service.targetPort }}
         resources:
           limits:
             cpu: 250m
-            ephemeral-storage: 350Mi
-            memory: 512Mi
-
+            ephemeral-storage: 500Mi
+            memory: 1Gi
           requests:
             cpu: 250m
-            ephemeral-storage: 350Mi
-            memory: 512Mi
+            ephemeral-storage: 500Mi
+            memory: 1Gi
+        volumeMounts:
+          - mountPath: "/mlflow/mlruns"
+            name: mlflow-volume
+      volumes:
+        - name: mlflow-volume
+          persistentVolumeClaim:
+            claimName: mlflow-pvc

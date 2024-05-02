@@ -1,20 +1,20 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: airflow-dev
+  name: airflow-prd
   namespace: argocd
 spec:
   project: default
   source:
     repoURL: 'https://github.com/Jbdu4493/oct23_cmlops_reco_films_helm.git'
     targetRevision: HEAD  # Ou une autre branche/tag
-    path: ./DEV/AIRFLOW/
+    path: ./PRD/AIRFLOW/
     helm:
       valueFiles:
         - values.yaml
   destination:
     server: 'https://kubernetes.default.svc'
-    namespace: airflow-dev
+    namespace: app-movieflix-prd
   syncPolicy:
 
     automated: 

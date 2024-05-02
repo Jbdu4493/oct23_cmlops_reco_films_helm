@@ -4,9 +4,12 @@
 ENV: prd
 #----------Ne pas toucher
 
+replicaCount: 1
+
 image:
   # Overrides the image tag whose default is the chart appVersion.
-  tag: "dd2101e"
+
+  tag: "e8c9424"
 
 secret:
   USER: "cG9zdGdyZXM="
@@ -21,7 +24,13 @@ secret:
 mlflow:
   MLFLOW_MODELID: 1
   MLFLOW_SERVER: aHR0cDovLzEzLjM5LjgwLjEyMjo1MDAwLw==
+  port: "5001"
 
+airflow:
+  service: airflow-webserver
+  port: "8080"
+  user: YWRtaW4=
+  pdw: YWRtaW4=
 
 imagePullSecrets: []
 nameOverride: ""
@@ -52,29 +61,30 @@ securityContext: {}
   # runAsNonRoot: true
   # runAsUser: 1000
 api:
-  replicaCount: 1
   name: movieflix-api
   image:
     repository: recofilmsmlopsoct2023/movieflix-api
     pullPolicy: Always
   service:
     type: LoadBalancer
-    port: "8002"
+    port: "8001"
     targetPort: "8001"
-    nodePort: "30022"
+  ingress:
+    path: "/"
 
 
 streamlit:
-  replicaCount: 1
   name: movieflix-streamlit
   image:
     repository: recofilmsmlopsoct2023/movieflix-streamlit
     pullPolicy: Always
   service:
     type: LoadBalancer
-    port: "8506"
+    port: "8504"
     targetPort: "8504"
-    nodePort: "30021"
+    nodePort: "30020"
+  ingress:
+    path: "/"
 
 prometheus:
   name: prometheus
@@ -83,9 +93,9 @@ prometheus:
     pullPolicy: Always
   service:
     type: LoadBalancer
-    port: "9091"
+    port: "9090"
     targetPort: "9090"
-    nodePort: "30091"
+    nodePort: "30090"
 
 grafana:
   name: grafana
@@ -94,10 +104,18 @@ grafana:
     pullPolicy: Always
   service:
     type: LoadBalancer
-    port: "3001"
+    port: "3000"
     targetPort: "3000"
-    nodePort: "30301"
-  
+    nodePort: "30300"
+
+database:
+  name: movieflix-database
+  image:
+    database: postgres:latest
+    initdb: recofilmsmlopsoct2023/movieflix-initdb:latest
+  service:
+    port: "5431"
+    targetport: "5432"
 
 
 resources: {}
@@ -114,9 +132,9 @@ resources: {}
 
 autoscaling:
   enabled: false
-  minReplicas: 1
-  maxReplicas: 5
-  targetCPUUtilizationPercentage: 80
+  minReplicas: "1"
+  maxReplicas: "5"
+  targetCPUUtilizationPercentage: "80"
   # targetMemoryUtilizationPercentage: 80
 
 # Additional volumes on the output Deployment definition.

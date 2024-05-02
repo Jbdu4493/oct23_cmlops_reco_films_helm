@@ -4,7 +4,7 @@ metadata:
   name: {{ printf "%s-%s"  .Values.grafana.name .Values.ENV | quote }}
 spec:
   {{- if not .Values.autoscaling.enabled }}
-  replicas: 1
+  replicas: {{ .Values.replicaCount }}
   {{- end }}
   selector:
     matchLabels:
@@ -19,21 +19,21 @@ spec:
         image: {{ .Values.grafana.image.repository }}
         volumeMounts:
         - mountPath: /var/lib/grafana
-          name: {{ .Values.grafana.name }}-volume-{{ .Values.ENV }}
+          name: {{ .Values.grafana.name }}-volume
         imagePullPolicy:  {{ .Values.grafana.image.pullPolicy }}
         ports:
         - containerPort: {{ .Values.grafana.service.targetPort }}
         resources:
           limits:
             cpu: 250m
-            ephemeral-storage: 100Mi
-            memory: 512Mi
+            ephemeral-storage: 500Mi
+            memory: 1Gi
           requests:
             cpu: 250m
-            ephemeral-storage: 100Mi
-            memory: 512Mi
+            ephemeral-storage: 500Mi
+            memory: 1Gi
       volumes:
-      - name: {{ .Values.grafana.name }}-volume-{{ .Values.ENV }}
+      - name: {{ .Values.grafana.name }}-volume
         emptyDir:
           sizeLimit: 500Mi
 

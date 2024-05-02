@@ -1,0 +1,9 @@
+ENV: prd
+
+image:
+  repository: burakince/mlflow:2.1.1
+  name: mlflow-movieflix
+
+sevice:
+  port: 5001
+  targetport: 5000
