@@ -29,11 +29,10 @@ spec:
             value: "1"
           - name: AIRFLOW_URL
             value: {{ printf "http://%s:%s" .Values.airflow.service .Values.airflow.port | quote }}
-          - name: AIRFLOW_USER 
+          - name: AIRFLOW_USER
             value: {{ .Values.airflow.user | b64dec | quote }}
-          - name: AIRFLOW_USR_PWD 
+          - name: AIRFLOW_USR_PWD
             value: {{ .Values.airflow.pdw| b64dec | quote }}
-        restartPolicy: Never
       containers:
       - name: {{ .Values.api.name }}
         image: {{ .Values.api.image.repository }}:{{ .Values.image.tag }}
