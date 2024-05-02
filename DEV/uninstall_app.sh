@@ -8,9 +8,13 @@ kubectl delete -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/s
 kubectl delete all --all -n argocd
 kubectl delete all --all -n app-movieflix-dev
 
+
 kubectl delete statefulset airflow-postgresql -n default
 kubectl delete crds --selector app.kubernetes.io/part-of=argocd
 kubectl delete clusterrole,clusterrolebinding --selector app.kubernetes.io/part-of=argocd
+
+kubectl delete pvc --all -n app-movieflix-dev
+kubectl delete pv --all -n app-movieflix-dev
 
 kubectl delete namespace argocd
 kubectl delete namespace app-movieflix-dev

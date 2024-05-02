@@ -14,6 +14,26 @@ spec:
       labels:
         app: {{ printf "%s-%s"  .Values.api.name .Values.ENV | quote }}
     spec:
+      initContainers:
+        - name: init-db
+          image: {{ .Values.database.image.initdb | quote }}
+          envFrom:
+            - secretRef:
+                name: {{ printf "%s-%s-secret"  .Values.database.name .Values.ENV | quote }}
+          env:
+            - name: POSTGRES_HOST
+              value: {{ printf "%s-%s"  .Values.database.name .Values.ENV | quote }}
+            - name: POSTGRES_PORT
+              value: {{ .Values.database.service.port | quote}}
+            - name: PYTHONUNBUFFERED
+              value: "1"
+            - name: AIRFLOW_URL
+              value: {{ printf "http://%s:%s" .Values.airflow.service .Values.airflow.port | quote }}
+            - name: AIRFLOW_USER 
+              value: {{ .Values.airflow.user | b64dec | quote }}
+            - name: AIRFLOW_USR_PWD 
+              value: {{ .Values.airflow.pdw| b64dec | quote }}
+        restartPolicy: Never
       containers:
       - name: {{ .Values.api.name }}
         image: {{ .Values.api.image.repository }}:{{ .Values.image.tag }}
