@@ -4,7 +4,8 @@
 
 This **MLOps** project combines the power of **Helm** and **ArgoCD** to deploy a film recommendation system into a **Local Kubernetes environment**. It is a part of the [movie-recommander](https://github.com/Chadiboulos/movie-recommander/tree/main) project created during the [Datascientest](https://datascientest.com) training courses to obtain the diploma of **Machine Learning Engineer**. Leveraging Helm charts offers a streamlined and scalable approach to deploy and manage the film recommendation services.
 
-![Recofilm_architecture](https://github.com/Jbdu4493/oct23_cmlops_reco_films_helm/assets/88548265/7aa3d3db-ef1e-4786-a2bf-da8dd091731f)
+![Recofim architecture](https://github.com/Jbdu4493/oct23_cmlops_reco_films_helm/assets/88548265/c4065e92-5f0b-4e9f-b52d-9413d476e450)
+
 
 
 ## Table of Contents
