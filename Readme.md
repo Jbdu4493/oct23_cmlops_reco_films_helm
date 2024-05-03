@@ -45,7 +45,7 @@ rm argocd-linux-amd64
 
 # Access Argo CD API Server
 kubectl patch svc argocd-server -n argocd -p '{"spec": {"type": "LoadBalancer"}}'
-kubectl port-forward svc/argocd-server -n argocd 8081:443
+kubectl port-forward svc/argocd-server -n argocd 80:443
 ```
 
 ### Helm Chart Installation
@@ -91,7 +91,13 @@ localhost:5001
 Streamlit -
 localhost:8504 (test1 - testuser)
 
- \* The api need 10-15 mins to be started because of the database init
+Prometheus -
+localhost:9090
+
+Grafana -
+localhost:3000 (admin - admin)
+
+ \* The api need 10-15 mins to be started because of PostrgeSQL database init
 
 Dependencies
 ============
