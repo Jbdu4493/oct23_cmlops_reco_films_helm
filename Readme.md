@@ -76,25 +76,25 @@ Usage
 
 After successful deployment, the film recommendation application will be accessible via FastAPI, Streamlit, and other services hosted on a local Kubernetes cluster through a web browser:
 
-ArgoCD API Server - 
+**ArgoCD API Server** - 
 localhost:80 (admin - auto-generated password check the ./install.sh log) 
 
-FastApi Application \* - 
+**FastApi Application** \* - 
 localhost:8001/docs (test1 - testuser)
 
-Airflow -
+**Airflow** -
 localhost:8080 (admin - admin)
 
-MLflow - 
+**MLflow** - 
 localhost:5001
 
-Streamlit -
+**Streamlit** -
 localhost:8504 (test1 - testuser)
 
-Prometheus -
+**Prometheus** -
 localhost:9090
 
-Grafana -
+**Grafana** -
 localhost:3000 (admin - admin)
 
  \* The api need 10-15 mins to be started because of PostrgeSQL database init
