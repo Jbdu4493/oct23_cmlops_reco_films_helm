@@ -97,6 +97,13 @@ localhost:9090
 **Grafana** -
 localhost:3000 (admin - admin)
 
+**PostgreSQL** -
+DBNAME=postgres,
+USER=postgres,
+PASSWORD=recommendation_films_oct_23_MLOPS,
+HOST=localhost,
+PORT=5431
+
  \* The api need 10-15 mins to be started because of PostrgeSQL database init
 
 Dependencies
