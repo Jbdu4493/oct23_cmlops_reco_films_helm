@@ -76,7 +76,7 @@ Usage
 
 After successful deployment, the film recommendation application will be accessible via FastAPI, Streamlit, and other services hosted on a local Kubernetes cluster through a web browser:
 
-**ArgoCD API Server** - 
+**ArgoCD** - 
 localhost:80 (admin - auto-generated password check the ./install.sh log) 
 
 **FastApi Application** \* - 
