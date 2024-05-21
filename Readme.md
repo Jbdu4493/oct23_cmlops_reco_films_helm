@@ -79,7 +79,7 @@ After successful deployment, the film recommendation application will be accessi
 **ArgoCD** - 
 localhost:80 (admin - auto-generated password check the ./install.sh log) 
 
-**FastApi Application** \* - 
+**FastApi Application**\* - 
 localhost:8001/docs (test1 - testuser)
 
 **Airflow** -
