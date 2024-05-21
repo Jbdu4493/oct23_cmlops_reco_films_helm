@@ -104,7 +104,7 @@ PASSWORD=recommendation_films_oct_23_MLOPS,
 HOST=localhost,
 PORT=5431
 
- \* The api need 10-15 mins to be started because of PostrgeSQL database init
+ \* The api needs 10-15 mins to be started because of PostrgeSQL database init
 
 Dependencies
 ============
